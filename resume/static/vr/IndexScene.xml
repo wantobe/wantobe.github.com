@@ -524,24 +524,24 @@
       lineHeight:1.5,
       fontSize:20
     }, {
-        name:"portfolio_title",
-        width:300,
-        height:86,
-        edge:"lefttop",
-        ox:-610,
-        oy:-152,
-        textAlign:"left",
-        text:"部分作品",
-        fontSize:24,
-      }, {
-        name:"portfolio_icon",
-        url:"static/img/vr/work_icon.png",
-        width:220,
-        height:"prop",
-        edge:"lefttop",
-        ox:-600,
-        oy:-352
-      }];
+      name:"portfolio_title",
+      width:300,
+      height:86,
+      edge:"lefttop",
+      ox:-610,
+      oy:-152,
+      textAlign:"left",
+      text:"部分作品",
+      fontSize:24,
+    }, {
+      name:"portfolio_icon",
+      url:"static/img/vr/work_icon.png",
+      width:220,
+      height:"prop",
+      edge:"lefttop",
+      ox:-600,
+      oy:-352
+    }];
 
     var styles_left = [
       {
@@ -551,6 +551,7 @@
         background:"rgba(25,52,64,0.9)",
         ox:-1920,
         depth:2500,
+        ry:-45,
         scale:1.9,
         zorder:4
       }, {
@@ -558,6 +559,7 @@
         width:440,
         height:300,
         border:"2 cyan",
+        ry:-45,
         ox:-1600,
         oy:0
       }, {
@@ -565,6 +567,7 @@
         width:120,
         height:1,
         background:"cyan",
+        ry:-45,
         ox:-816,
         oy:-140
       }, {
@@ -572,6 +575,7 @@
         url:"static/img/portfolio/vrcinema-iooi.jpg",
         width:270,
         height:"prop",
+        ry:-45,
         ox:-1850,
         oy:0
       }, {
@@ -579,6 +583,7 @@
         url:"static/img/portfolio/comic.jpg",
         width:100,
         height:"prop",
+        ry:-45,
         ox:-1200,
         oy:-110
       }, {
@@ -586,8 +591,20 @@
         url:"static/img/portfolio/vrcomic.jpg",
         width:100,
         height:"prop",
+        ry:-45,
         ox:-1200,
         oy:105
+      }, {
+        name:"more_info_bg",
+        width:100,
+        height:30,
+        text:"●●●",
+        ry:-45,
+        ox:-1600,
+        oy:370,
+        onover:"tween(scale, 2.2)",
+        onout:"tween(scale, 2)",
+        onclick:"select_btn_yes_no(more_info())"
       }
     ];
 
@@ -599,6 +616,7 @@
         background:"rgba(24,36,40,0.9)",
         ox:1920,
         depth:2500,
+        ry:45,
         scale:1.9,
         zorder:4
       }, {
@@ -608,6 +626,7 @@
         fontSize:24,
         width:500,
         height:36,
+        ry:45,
         ox:1600,
         oy:-580
       }, {
@@ -615,6 +634,7 @@
         url:"static/img/vr/services.png",
         width:500,
         height:"prop",
+        ry:45,
         ox:1600,
         oy:-205
       }, {
@@ -624,6 +644,7 @@
         fontSize:24,
         width:500,
         height:36,
+        ry:45,
         ox:1600,
         oy:180
       }, {
@@ -631,25 +652,25 @@
         url:"static/img/vr/interest.png",
         width:500,
         height:"prop",
+        ry:45,
         ox:1600,
         oy:430
       }
     ];
 
 		krpano.createhotspot(styles_middle);
-		krpano.createhotspot(styles_left, {
-		  ry:-45,
-      scale:2,
-      zorder:5,
-      depth:2000
-    });
-    krpano.createhotspot(styles_right, {
-		  ry:45,
+    krpano.createhotspot(styles_left.concat(styles_right), {
       scale:2,
       zorder:5,
       depth:2000
     });
 
+  ]]></action>
+
+  <action name="more_info" type="javascript"><![CDATA[
+    console.log(134)
+    var link = window.location.href.split("#")[0].replace("resume/","");
+    window.location.href=link;
   ]]></action>
 
 </krpano>

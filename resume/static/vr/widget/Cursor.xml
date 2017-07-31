@@ -143,21 +143,19 @@
 
 	<action name="select_btn_yes_no">
 		select_btn();
-		set(hotspot[select_btn].url,"../../img/vr/select_btn/select_btn.png");
+		set(hotspot[select_btn].url,"static/img/vr/select_btn/select_btn.png");
 		set(hotspot[select_btn].crop,"10|553|494|494");
 		set(hotspot[transparent_r].enabled,false);
 		set(hotspot[transparent_l].enabled,false);
 		set(hotspot[transparent_d].enabled,true);
-		set(hotspot[transparent_d].handcursor,true);
 		set(hotspot[transparent_d].onclick,calc("%1"+";vr_btn_out()"));
 		set(hotspot[transparent_u].enabled,true);
 		set(hotspot[transparent_u].onclick,%2;vr_btn_out());
 	</action>
 
-
 	<action name="select_btn_left_right">
 		select_btn();
-		set(hotspot[select_btn].url,"../../img/vr/select_btn/select_btn.png");
+		set(hotspot[select_btn].url,"static/img/vr/select_btn/select_btn.png");
 		set(hotspot[select_btn].crop,"10|1201|494|494");
 		set(hotspot[transparent_r].handcursor,true);
 		set(hotspot[transparent_r].enabled,true);
@@ -170,21 +168,4 @@
 		set(hotspot[transparent_d].enabled,false);
 	</action>
 
-	<action name="select_btn_download">
-		select_btn();
-		set(hotspot[select_btn].url,"../../img/vr/select_btn/select_btn.png");
-		set(hotspot[select_btn].crop,"10|20|494|494");
-		set(hotspot[transparent_u].enabled,true);
-		set(hotspot[transparent_u].onclick, %1;vr_btn_out());
-
-		set(hotspot[transparent_r].enabled,true);
-		set(hotspot[transparent_r].onclick, %2;vr_btn_out());
-
-		set(hotspot[transparent_d].enabled,true);
-		set(hotspot[transparent_d].onclick, %3;vr_btn_out());
-
-		set(hotspot[transparent_l].enabled,true);
-		set(hotspot[transparent_l].onclick, %4;vr_btn_out());
-
-	</action>
 </krpano>
