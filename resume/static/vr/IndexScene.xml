@@ -1,0 +1,655 @@
+<krpano onstart="loadscene(index)">
+  <include url="/static/vr/common.xml" />
+
+	<scene name="index" onstart="index()">
+		<image fov="10" if="1">
+			<sphere url="/static/img/bg.jpg" />
+		</image>
+	</scene>
+
+  <action name="index" type="Javascript"><![CDATA[
+    var styles_middle = [{
+      name:"previw_bg",
+      url:"/static/img/vr/preview_bg_tb.jpg",
+      stereo:"TB",
+      width: 1366,
+      height: 960,
+      depth:2500,
+      zorder:2,
+      scale:1.25
+		}, {
+		  name:"title",
+      width:456,
+      height:86,
+      edge:"centertop",
+      oy:-430,
+      text:"林勇全的简历",
+      fontSize:40,
+      color:"cyan"
+		}, {
+		  name:"base_info_title",
+      width:300,
+      height:86,
+      edge:"lefttop",
+      ox:-80,
+      oy:-310,
+      textAlign:"left",
+      text:"个人信息",
+      fontSize:24,
+		}, {
+		  name:"base_info_line",
+      width:2,
+      height:140,
+      edge:"lefttop",
+      ox:-120,
+      oy:-280,
+      background:"#87c9bf"
+		}, {
+		  name:"base_info_hometown",
+      width:300,
+      height:86,
+      edge:"lefttop",
+      ox:-436,
+      oy:-280,
+      textAlign:"right",
+      text:"籍贯：福建漳浦",
+      fontSize:20,
+		}, {
+		  name:"base_info_sex",
+      width:300,
+      height:86,
+      edge:"lefttop",
+      ox:-436,
+      oy:-240,
+      textAlign:"right",
+      text:"性别：男",
+      fontSize:20,
+		}, {
+		  name:"base_info_birthday",
+      width:300,
+      height:86,
+      edge:"lefttop",
+      ox:-436,
+      oy:-200,
+      textAlign:"right",
+      text:"出生年月：1989年1月",
+      fontSize:20,
+		}, {
+		  name:"base_info_expected",
+      width:300,
+      height:86,
+      edge:"lefttop",
+      ox:-436,
+      oy:-160,
+      textAlign:"right",
+      text:"希望待遇：10K+",
+      fontSize:20,
+		}, {
+      name:"skill_bg",
+      border:"1 cyan",
+      background:"rgba(33,123,134,0.2)",
+      width:620,
+      height:480,
+      edge:"lefttop",
+      ox:-642,
+      oy:-40
+		}, {
+		  name:"skill_title",
+      width:620,
+      height:86,
+      edge:"lefttop",
+      ox:-642,
+      oy:-30,
+      text:"个人技能",
+      fontSize:24,
+		}
+
+
+		, {
+		  name:"skill_item_0",
+      width:300,
+      height:86,
+      edge:"lefttop",
+      ox:-610,
+      oy:10,
+      textAlign:"left",
+      text:"HTML/CSS/JS",
+      fontSize:20,
+		}, {
+		  name:"skill_item_0_progress",
+      width:250*0.87,
+      height:20,
+      edge:"lefttop",
+      ox:-610,
+      oy:40,
+      background:"darkcyan"
+		}, {
+		  name:"skill_item_0_border",
+      width:250,
+      height:20,
+      edge:"lefttop",
+      ox:-610,
+      oy:40,
+      border:"2 cyan"
+		}, {
+		  name:"skill_item_1",
+      width:300,
+      height:86,
+      edge:"lefttop",
+      ox:-610,
+      oy:80,
+      textAlign:"left",
+      text:"PHP",
+      fontSize:20,
+		}, {
+		  name:"skill_item_1_progress",
+      width:250*0.6,
+      height:20,
+      edge:"lefttop",
+      ox:-610,
+      oy:110,
+      background:"darkcyan"
+		}, {
+		  name:"skill_item_1_border",
+      width:250,
+      height:20,
+      edge:"lefttop",
+      ox:-610,
+      oy:110,
+      border:"2 cyan"
+		}, {
+		  name:"skill_item_2",
+      width:300,
+      height:86,
+      edge:"lefttop",
+      ox:-610,
+      oy:150,
+      textAlign:"left",
+      text:"JAVA",
+      fontSize:20,
+		}, {
+		  name:"skill_item_2_progress",
+      width:250*0.7,
+      height:20,
+      edge:"lefttop",
+      ox:-610,
+      oy:180,
+      background:"darkcyan"
+		}, {
+		  name:"skill_item_2_border",
+      width:250,
+      height:20,
+      edge:"lefttop",
+      ox:-610,
+      oy:180,
+      border:"2 cyan"
+		}, {
+		  name:"skill_item_3",
+      width:300,
+      height:86,
+      edge:"lefttop",
+      ox:-610,
+      oy:220,
+      textAlign:"left",
+      text:"OC",
+      fontSize:20,
+		}, {
+		  name:"skill_item_3_progress",
+      width:250*0.5,
+      height:20,
+      edge:"lefttop",
+      ox:-610,
+      oy:250,
+      background:"darkcyan"
+		}, {
+		  name:"skill_item_3_border",
+      width:250,
+      height:20,
+      edge:"lefttop",
+      ox:-610,
+      oy:250,
+      border:"2 cyan"
+		}, {
+		  name:"skill_item_4",
+      width:300,
+      height:86,
+      edge:"lefttop",
+      ox:-610,
+      oy:290,
+      textAlign:"left",
+      text:"SQL",
+      fontSize:20,
+		}, {
+		  name:"skill_item_4_progress",
+      width:250*0.6,
+      height:20,
+      edge:"lefttop",
+      ox:-610,
+      oy:320,
+      background:"darkcyan"
+		}, {
+		  name:"skill_item_4_border",
+      width:250,
+      height:20,
+      edge:"lefttop",
+      ox:-610,
+      oy:320,
+      border:"2 cyan"
+		}, {
+		  name:"skill_item_5",
+      width:300,
+      height:86,
+      edge:"lefttop",
+      ox:-610,
+      oy:360,
+      textAlign:"left",
+      text:"Animation",
+      fontSize:20,
+		}, {
+		  name:"skill_item_5_progress",
+      width:250*0.7,
+      height:20,
+      edge:"lefttop",
+      ox:-610,
+      oy:390,
+      background:"darkcyan"
+		}, {
+		  name:"skill_item_5_border",
+      width:250,
+      height:20,
+      edge:"lefttop",
+      ox:-610,
+      oy:390,
+      border:"2 cyan"
+		}, {
+		  name:"skill_item_6",
+      width:300,
+      height:86,
+      edge:"lefttop",
+      ox:-310,
+      oy:10,
+      textAlign:"left",
+      text:"Photoshop & Illustrator",
+      fontSize:20,
+		}, {
+		  name:"skill_item_6_progress",
+      width:250*0.9,
+      height:20,
+      edge:"lefttop",
+      ox:-310,
+      oy:40,
+      background:"darkcyan"
+		}, {
+		  name:"skill_item_6_border",
+      width:250,
+      height:20,
+      edge:"lefttop",
+      ox:-310,
+      oy:40,
+      border:"2 cyan"
+		}, {
+		  name:"skill_item_7",
+      width:300,
+      height:86,
+      edge:"lefttop",
+      ox:-310,
+      oy:80,
+      textAlign:"left",
+      text:"Linux/Unix",
+      fontSize:20,
+		}, {
+		  name:"skill_item_7_progress",
+      width:250*0.6,
+      height:20,
+      edge:"lefttop",
+      ox:-310,
+      oy:110,
+      background:"darkcyan"
+		}, {
+		  name:"skill_item_7_border",
+      width:250,
+      height:20,
+      edge:"lefttop",
+      ox:-310,
+      oy:110,
+      border:"2 cyan"
+		}, {
+		  name:"skill_item_8",
+      width:300,
+      height:86,
+      edge:"lefttop",
+      ox:-310,
+      oy:150,
+      textAlign:"left",
+      text:"Node.js",
+      fontSize:20,
+		}, {
+		  name:"skill_item_8_progress",
+      width:250*0.7,
+      height:20,
+      edge:"lefttop",
+      ox:-310,
+      oy:180,
+      background:"darkcyan"
+		}, {
+		  name:"skill_item_8_border",
+      width:250,
+      height:20,
+      edge:"lefttop",
+      ox:-310,
+      oy:180,
+      border:"2 cyan"
+		}, {
+		  name:"skill_item_9",
+      width:300,
+      height:86,
+      edge:"lefttop",
+      ox:-310,
+      oy:220,
+      textAlign:"left",
+      text:"Angular",
+      fontSize:20,
+		}, {
+		  name:"skill_item_9_progress",
+      width:250*0.6,
+      height:20,
+      edge:"lefttop",
+      ox:-310,
+      oy:250,
+      background:"darkcyan"
+		}, {
+		  name:"skill_item_9_border",
+      width:250,
+      height:20,
+      edge:"lefttop",
+      ox:-310,
+      oy:250,
+      border:"2 cyan"
+		}, {
+		  name:"skill_item_10",
+      width:300,
+      height:86,
+      edge:"lefttop",
+      ox:-310,
+      oy:290,
+      textAlign:"left",
+      text:"React",
+      fontSize:20,
+		}, {
+		  name:"skill_item_10_progress",
+      width:250*0.6,
+      height:20,
+      edge:"lefttop",
+      ox:-310,
+      oy:320,
+      background:"darkcyan"
+		}, {
+		  name:"skill_item_10_border",
+      width:250,
+      height:20,
+      edge:"lefttop",
+      ox:-310,
+      oy:320,
+      border:"2 cyan"
+		}, {
+		  name:"skill_item_11",
+      width:300,
+      height:86,
+      edge:"lefttop",
+      ox:-310,
+      oy:360,
+      textAlign:"left",
+      text:"Vue",
+      fontSize:20,
+		}, {
+		  name:"skill_item_11_progress",
+      width:250*0.8,
+      height:20,
+      edge:"lefttop",
+      ox:-310,
+      oy:390,
+      background:"darkcyan"
+		}, {
+		  name:"skill_item_11_border",
+      width:250,
+      height:20,
+      edge:"lefttop",
+      ox:-310,
+      oy:390,
+      border:"2 cyan"
+		}
+
+
+
+		, {
+      name:"avatar",
+      url:"/static/img/photo_1.jpg",
+      width:142,
+      height:142,
+      edge:"lefttop",
+      ox:-95,
+      oy:-282
+		}, {
+      name:"avatar_bg",
+      url:"/static/img/vr/avatar_bg.png",
+      width:590,
+      height:250,
+      edge:"lefttop",
+      ox:-100,
+      oy:-328
+		}, {
+		  name:"base_info_email",
+      width:300,
+      height:86,
+      edge:"lefttop",
+      ox:70,
+      oy:-248,
+      textAlign:"left",
+      text:"邮箱：shengli.ly@163.com ",
+      fontSize:18
+		}, {
+		  name:"base_info_mobile",
+      width:300,
+      height:86,
+      edge:"lefttop",
+      ox:70,
+      oy:-224,
+      textAlign:"left",
+      text:"电话：159-5924-2025 ",
+      fontSize:18
+		}, {
+		  name:"base_info_wechat",
+      width:300,
+      height:86,
+      edge:"lefttop",
+      ox:70,
+      oy:-200,
+      textAlign:"left",
+      text:"微信：jining_007",
+      fontSize:18
+		}, {
+		  name:"base_info_address",
+      width:320,
+      height:86,
+      edge:"lefttop",
+      ox:70,
+      oy:-176,
+      textAlign:"left",
+      text:"地址：厦门市莲前西路51号毅宏大厦701",
+      fontSize:18
+		}, {
+      name:"avatar_name",
+      text:"林勇全 >>>",
+      fontSize:20,
+      fontWeight:"bold",
+      textAlign:"left",
+      color: "orange",
+      width:142,
+      height:250,
+      edge:"lefttop",
+      ox:-95,
+      oy:-135
+		}, {
+      name:"avatar__title",
+      text:"前端工程师",
+      fontSize:20,
+      textAlign:"left",
+      color: "cyan",
+      width:142,
+      height:250,
+      edge:"lefttop",
+      ox:-80,
+      oy:-105
+		}, {
+		  name:"statement_title",
+      width:590,
+      height:64,
+      edge:"lefttop",
+      ox:48,
+      oy:-40,
+      text:"自我描述",
+      fontSize:24,
+      padding:"20 0",
+      background:"rgba(33,123,134,0.2)",
+      border:"1 cyan"
+		}, {
+      name:"statement",
+      width:590,
+      height:300,
+      edge:"lefttop",
+      ox:50,
+      oy:40,
+      p:"喜欢玩设计，又喜欢倒腾代码，综合前两个条件非前端工程师莫属了。早年发现 自己的设计水平跟不上自己的眼光，而慢慢将学习研究重心转到coding，还好自 己有点编程基础，前端方面的知识脑补了不少，平时又喜欢动手实验，所以 Javascript水平也得以全面的提升，反而让我更加佩服这门“奇葩”语言。各种客户 端对新的web标准支持越来越好，js不但代替部分native的工作，也成为了跨平台 的很好桥梁，而nodejs的出现，使前端系统化、工程化成为可能，大厂团队也纷 纷拥抱这个趋势。前端各种开源项目、各种框架也越来越强大，前端界的活跃度 让我看到了希望，我继续看好前端的发展。",
+      textAlign:"left",
+      lineHeight:1.5,
+      fontSize:20
+    }, {
+        name:"portfolio_title",
+        width:300,
+        height:86,
+        edge:"lefttop",
+        ox:-610,
+        oy:-152,
+        textAlign:"left",
+        text:"部分作品",
+        fontSize:24,
+      }, {
+        name:"portfolio_icon",
+        url:"static/img/vr/work_icon.png",
+        width:220,
+        height:"prop",
+        edge:"lefttop",
+        ox:-600,
+        oy:-352
+      }];
+
+    var styles_left = [
+      {
+        name:"left_panel",
+        width:960,
+        height:960,
+        background:"rgba(25,52,64,0.9)",
+        ox:-1920,
+        depth:2500,
+        scale:1.9,
+        zorder:4
+      }, {
+        name:"work_border",
+        width:440,
+        height:300,
+        border:"2 cyan",
+        ox:-1600,
+        oy:0
+      }, {
+        name:"work_line",
+        width:120,
+        height:1,
+        background:"cyan",
+        ox:-816,
+        oy:-140
+      }, {
+        name:"work_0",
+        url:"static/img/portfolio/vrcinema-iooi.jpg",
+        width:270,
+        height:"prop",
+        ox:-1850,
+        oy:0
+      }, {
+        name:"work_1",
+        url:"static/img/portfolio/comic.jpg",
+        width:100,
+        height:"prop",
+        ox:-1200,
+        oy:-110
+      }, {
+        name:"work_2",
+        url:"static/img/portfolio/vrcomic.jpg",
+        width:100,
+        height:"prop",
+        ox:-1200,
+        oy:105
+      }
+    ];
+
+    var styles_right = [
+      {
+        name:"right_panel",
+        width:960,
+        height:960,
+        background:"rgba(24,36,40,0.9)",
+        ox:1920,
+        depth:2500,
+        scale:1.9,
+        zorder:4
+      }, {
+        name:"services_title",
+        text:"服务领域",
+        fontWeight:"bold",
+        fontSize:24,
+        width:500,
+        height:36,
+        ox:1600,
+        oy:-580
+      }, {
+        name:"services",
+        url:"static/img/vr/services.png",
+        width:500,
+        height:"prop",
+        ox:1600,
+        oy:-205
+      }, {
+        name:"interest_title",
+        text:"兴趣爱好",
+        fontWeight:"bold",
+        fontSize:24,
+        width:500,
+        height:36,
+        ox:1600,
+        oy:180
+      }, {
+        name:"interest",
+        url:"static/img/vr/interest.png",
+        width:500,
+        height:"prop",
+        ox:1600,
+        oy:430
+      }
+    ];
+
+		krpano.createhotspot(styles_middle);
+		krpano.createhotspot(styles_left, {
+		  ry:-45,
+      scale:2,
+      zorder:5,
+      depth:2000
+    });
+    krpano.createhotspot(styles_right, {
+		  ry:45,
+      scale:2,
+      zorder:5,
+      depth:2000
+    });
+
+  ]]></action>
+
+</krpano>

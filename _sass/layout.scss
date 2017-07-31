@@ -23,6 +23,11 @@
 
 #nav {
   @include nav-position(right);
+  footer{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+  }
 }
 
 #nav-left {
@@ -131,10 +136,6 @@
   	margin: 0 auto;
   	display: block;
   }
-  h1 {
-  	font-family: 'Signika', sans-serif; //Emerald logo font
-    font-weight: 600;
-  }
   &:after {
   	display: block;
     content: '';
@@ -202,6 +203,9 @@ img[title="Emerald"] {
 code {
   color: lighten($text-color, 35%);
   background-color: lighten($background-color, 35%);
+  border-radius: 2px;
+  border: 1px solid #eee;
+  padding: 0 0.2em;
 }
 
 /* Set the vertical rhythm (and padding-left) for lists inside post content */

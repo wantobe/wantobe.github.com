@@ -1,0 +1,190 @@
+<krpano>
+	<!--光标选择圈圈-->
+	<hotspot name="select_btn"
+		visible="false"
+		distorted="true"
+		width="360"
+		keep="true"
+		height="360"
+		zorder="10"
+		url="/static/img/vr/select_btn/select_btn.png"
+		depth="2000"
+		crop="10|553|494|494"
+		onover= "vr_btn_over()"
+		onout="vr_btn_out()"
+		/>
+
+	<hotspot name="transparent_u"
+		visible="false"
+		distorted="true"
+		width="150"
+		height="90"
+		oy="-100"
+		keep="true"
+		zorder="10"
+		url="/static/img/vr/select_btn/black.png"
+		depth="2000"
+		vr_timeout="0"
+		onover= "vr_btn_over()"
+		onout="vr_btn_out()"
+		onclick="vr_btn_out();"
+		alpha="0"
+		/>
+	<hotspot name="transparent_d"
+		visible="false"
+		keep="true"
+		distorted="true"
+		width="150"
+		height="90"
+		oy="100"
+		zorder="10"
+		url="/static/img/vr/select_btn/black.png"
+		depth="2000"
+		vr_timeout="0"
+		onover= "vr_btn_over()"
+		onout="vr_btn_out()"
+		alpha="0"
+		/>
+	<hotspot name="transparent_r"
+		visible="false"
+		distorted="true"
+		width="90"
+		keep="true"
+		height="150"
+		ox="100"
+		zorder="10"
+		vr_timeout="0"
+		url="/static/img/vr/select_btn/black.png"
+		depth="2000"
+		onover= "vr_btn_over()"
+		onout="vr_btn_out()"
+		alpha="0"
+		/>
+	<hotspot name="transparent_l"
+		visible="false"
+		distorted="true"
+		keep="true"
+		width="90"
+		vr_timeout="0"
+		height="150"
+		ox="-100"
+		zorder="10"
+		url="/static/img/vr/select_btn/black.png"
+		depth="2000"
+		onover= "vr_btn_over()"
+		onout="vr_btn_out()"
+		alpha="0"
+		/>
+	<hotspot name="view_btn_hidden"
+		visible="false"
+		alpha="0"
+		distorted="true"
+		width="30"
+		keep="true"
+		height="30"
+		zorder="10"
+		url="/static/img/vr/select_btn/black.png"
+		handcursor="false"
+		onover= "vr_btn_over()"
+		onout="vr_btn_out()"
+		/>
+
+	<action name="select_btn" type="Javascript" devices="html5">
+		<![CDATA[
+
+		var hs_u = krpano.get("hotspot[transparent_u]");
+		var hs_d = krpano.get("hotspot[transparent_d]");
+		var hs_bg = krpano.get("hotspot[select_btn]");
+		var hs_r = krpano.get("hotspot[transparent_r]");
+		var hs_l = krpano.get("hotspot[transparent_l]");
+		var hs_hidden = krpano.get("hotspot[view_btn_hidden]");
+
+		var f = 1,	// follow speed factor
+			h = krpano.view.hlookat,
+			v = krpano.view.vlookat,
+			hsh = hs_d.ath,
+			hsv = hs_d.atv;
+			// map to -180 to +180
+			h   = (h  -(h|0))   + (((h|0)  +360180)%360) - 180.0;
+			hsh = (hsh-(hsh|0)) + (((hsh|0)+360180)%360) - 180.0;
+			// get the shortest horizontal distance
+			dh = h - hsh;
+			dh += (dh>180) ? -360 : (dh<-180) ? 360 : 0
+			// follow slowing horizontally
+			hsh += dh*f;
+			// move up the more looking down
+			hsv = v;
+			hs_u.visible = hs_d.visible = hs_bg.visible = hs_r.visible = hs_l.visible =  hs_hidden.visible = true;
+			hs_u.ath = hs_d.ath = hs_bg.ath = hs_r.ath = hs_l.ath = hs_hidden.ath= hsh;
+			hs_u.atv = hs_d.atv = hs_bg.atv = hs_r.atv = hs_l.atv = hs_hidden.atv= hsv;
+	]]>
+	</action>
+
+	<action name="vr_btn_out">
+		set(hotspot[select_btn].visible,false);
+		set(hotspot[transparent_u].visible,false);
+		set(hotspot[transparent_d].visible,false);
+		set(hotspot[transparent_r].visible,false);
+		set(hotspot[transparent_l].visible,false);
+		set(hotspot[view_btn_hidden].visible,false);
+		clearinterval(vr_setup_adjust);
+	</action>
+	<action name="vr_btn_over">
+		set(hotspot[select_btn].visible,true);
+		set(hotspot[transparent_u].visible,true);
+		set(hotspot[transparent_d].visible,true);
+		set(hotspot[transparent_r].visible,true);
+		set(hotspot[transparent_l].visible,true);
+		set(hotspot[view_btn_hidden].visible,true);
+
+	</action>
+
+	<action name="null;vr_btn_out">vr_btn_out();</action>
+
+	<action name="select_btn_yes_no">
+		select_btn();
+		set(hotspot[select_btn].url,"/static/img/vr/select_btn/select_btn.png");
+		set(hotspot[select_btn].crop,"10|553|494|494");
+		set(hotspot[transparent_r].enabled,false);
+		set(hotspot[transparent_l].enabled,false);
+		set(hotspot[transparent_d].enabled,true);
+		set(hotspot[transparent_d].handcursor,true);
+		set(hotspot[transparent_d].onclick,calc("%1"+";vr_btn_out()"));
+		set(hotspot[transparent_u].enabled,true);
+		set(hotspot[transparent_u].onclick,%2;vr_btn_out());
+	</action>
+
+
+	<action name="select_btn_left_right">
+		select_btn();
+		set(hotspot[select_btn].url,"/static/img/vr/select_btn/select_btn.png");
+		set(hotspot[select_btn].crop,"10|1201|494|494");
+		set(hotspot[transparent_r].handcursor,true);
+		set(hotspot[transparent_r].enabled,true);
+		set(hotspot[transparent_r].onclick,%2;vr_btn_out());
+
+		set(hotspot[transparent_l].handcursor,true);
+		set(hotspot[transparent_l].enabled,true);
+		set(hotspot[transparent_l].onclick,%1;vr_btn_out());
+
+		set(hotspot[transparent_d].enabled,false);
+	</action>
+
+	<action name="select_btn_download">
+		select_btn();
+		set(hotspot[select_btn].url,"/static/img/vr/select_btn/select_btn.png");
+		set(hotspot[select_btn].crop,"10|20|494|494");
+		set(hotspot[transparent_u].enabled,true);
+		set(hotspot[transparent_u].onclick, %1;vr_btn_out());
+
+		set(hotspot[transparent_r].enabled,true);
+		set(hotspot[transparent_r].onclick, %2;vr_btn_out());
+
+		set(hotspot[transparent_d].enabled,true);
+		set(hotspot[transparent_d].onclick, %3;vr_btn_out());
+
+		set(hotspot[transparent_l].enabled,true);
+		set(hotspot[transparent_l].onclick, %4;vr_btn_out());
+
+	</action>
+</krpano>

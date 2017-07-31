@@ -3,8 +3,9 @@
  * https://github.com/mojombo/tpw/blob/master/css/syntax.css
  */
 
-// .highlight  { background-color: #FFF; }
-.lineno { color: darken($background-color, 25%); margin-right: 1em; }
+figure.highlight { margin:0; }
+figure.highlight>pre { border-radius: 2px; border: 1px solid #ddd; padding-left: 0.8em; }
+.lineno { color: darken($background-color, 25%); margin-right: 1em; user-select: none; }
 .highlight .c { color: #999988; font-style: italic } /* Comment */
 .highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
 .highlight .k { font-weight: bold } /* Keyword */

@@ -1,0 +1,88 @@
+<krpano>
+	<action name="app_init" type="javascript" autorun="preinit"><![CDATA[
+		krpano.contextmenu.versioninfo = false;
+		krpano.contextmenu.fullscreen = false;
+		
+		/**
+		 * 生成hotspot的通用方法(当style没有url属性时，先生成图片)
+		 * @param {Object|Array} style  样式或者由样式组成的数组
+		 * @param {Object} commonStyle  可选，批量新建共同样式
+		 */
+		krpano.registerattribute("createhotspot", function(style,commonStyle){
+			var default_value = {
+				distorted:true,
+				enabled:true,
+				depth:2000,
+				zorder:3,
+				url:"",
+				ox:0, oy:0,
+				ath:0, atv:0,
+				rx:"0.0", ry:"0.0", rz:"0.0",
+				width:"", height:"",
+				edge:"center",
+				scale:1,
+				alpha:1,
+				visible:true,
+				rotate:0,
+				vr_timeout:500,
+				onclick:"",
+				onover:"",
+				onout:"",
+				onloaded:"",
+				crop:"",
+				onovercrop:"",
+				stereo:""
+			};
+				
+			if(Array.isArray(style)){
+				for(var k in style){
+					doIt(style[k]);
+				}
+			}else{
+				doIt(style);
+			}
+			
+			function doIt(style){
+				krpano.addhotspot(style.name);
+				
+				if(commonStyle){
+					for(var i in commonStyle){
+						default_value[i] = commonStyle[i];
+					}
+				}
+				
+				for(var i in default_value){
+					krpano.set("hotspot["+style.name+"]."+i, default_value[i]);
+				}
+				for(var i in style){
+					if(i!='name'){
+						krpano.set("hotspot["+style.name+"]."+i, style[i]);
+					}
+				}
+				
+				if(!style.hasOwnProperty('url')&&style.hasOwnProperty('width')){
+					//生成图片
+					krpano.text2image(style);
+				}
+			}
+		});
+		
+	]]></action>
+	
+	
+	<!--根据name中的特定字符批量删除hotspot-->
+	<action name="delete_hotspots" type="javascript"><![CDATA[	
+		var hs = [];
+		for(var i = 0; i<resolve("hotspot.count"); i++){
+			var name = resolve("hotspot["+i+"].name");
+			if(name.lastIndexOf(args[1])>=0){
+				hs.push(name);
+			}
+		}
+		for(var i in hs){
+			krpano.removehotspot(hs[i]);
+		}
+	]]></action>
+	
+	
+</krpano>
