@@ -1,16 +1,16 @@
 <krpano onstart="loadscene(index)">
-  <include url="/static/vr/common.xml" />
+  <include url="common.xml" />
 
 	<scene name="index" onstart="index()">
 		<image fov="10" if="1">
-			<sphere url="/static/img/bg.jpg" />
+			<sphere url="../img/bg.jpg" />
 		</image>
 	</scene>
 
   <action name="index" type="Javascript"><![CDATA[
     var styles_middle = [{
       name:"previw_bg",
-      url:"/static/img/vr/preview_bg_tb.jpg",
+      url:"static/img/vr/preview_bg_tb.jpg",
       stereo:"TB",
       width: 1366,
       height: 960,
@@ -423,7 +423,7 @@
 
 		, {
       name:"avatar",
-      url:"/static/img/photo_1.jpg",
+      url:"static/img/photo_1.jpg",
       width:142,
       height:142,
       edge:"lefttop",
@@ -431,7 +431,7 @@
       oy:-282
 		}, {
       name:"avatar_bg",
-      url:"/static/img/vr/avatar_bg.png",
+      url:"static/img/vr/avatar_bg.png",
       width:590,
       height:250,
       edge:"lefttop",

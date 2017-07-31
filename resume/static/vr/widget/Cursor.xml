@@ -7,7 +7,7 @@
 		keep="true"
 		height="360"
 		zorder="10"
-		url="/static/img/vr/select_btn/select_btn.png"
+		url="../../img/vr/select_btn/select_btn.png"
 		depth="2000"
 		crop="10|553|494|494"
 		onover= "vr_btn_over()"
@@ -22,7 +22,7 @@
 		oy="-100"
 		keep="true"
 		zorder="10"
-		url="/static/img/vr/select_btn/black.png"
+		url="../../img/vr/select_btn/black.png"
 		depth="2000"
 		vr_timeout="0"
 		onover= "vr_btn_over()"
@@ -38,7 +38,7 @@
 		height="90"
 		oy="100"
 		zorder="10"
-		url="/static/img/vr/select_btn/black.png"
+		url="../../img/vr/select_btn/black.png"
 		depth="2000"
 		vr_timeout="0"
 		onover= "vr_btn_over()"
@@ -54,7 +54,7 @@
 		ox="100"
 		zorder="10"
 		vr_timeout="0"
-		url="/static/img/vr/select_btn/black.png"
+		url="../../img/vr/select_btn/black.png"
 		depth="2000"
 		onover= "vr_btn_over()"
 		onout="vr_btn_out()"
@@ -69,7 +69,7 @@
 		height="150"
 		ox="-100"
 		zorder="10"
-		url="/static/img/vr/select_btn/black.png"
+		url="../../img/vr/select_btn/black.png"
 		depth="2000"
 		onover= "vr_btn_over()"
 		onout="vr_btn_out()"
@@ -83,7 +83,7 @@
 		keep="true"
 		height="30"
 		zorder="10"
-		url="/static/img/vr/select_btn/black.png"
+		url="../../img/vr/select_btn/black.png"
 		handcursor="false"
 		onover= "vr_btn_over()"
 		onout="vr_btn_out()"
@@ -143,7 +143,7 @@
 
 	<action name="select_btn_yes_no">
 		select_btn();
-		set(hotspot[select_btn].url,"/static/img/vr/select_btn/select_btn.png");
+		set(hotspot[select_btn].url,"../../img/vr/select_btn/select_btn.png");
 		set(hotspot[select_btn].crop,"10|553|494|494");
 		set(hotspot[transparent_r].enabled,false);
 		set(hotspot[transparent_l].enabled,false);
@@ -157,7 +157,7 @@
 
 	<action name="select_btn_left_right">
 		select_btn();
-		set(hotspot[select_btn].url,"/static/img/vr/select_btn/select_btn.png");
+		set(hotspot[select_btn].url,"../../img/vr/select_btn/select_btn.png");
 		set(hotspot[select_btn].crop,"10|1201|494|494");
 		set(hotspot[transparent_r].handcursor,true);
 		set(hotspot[transparent_r].enabled,true);
@@ -172,7 +172,7 @@
 
 	<action name="select_btn_download">
 		select_btn();
-		set(hotspot[select_btn].url,"/static/img/vr/select_btn/select_btn.png");
+		set(hotspot[select_btn].url,"../../img/vr/select_btn/select_btn.png");
 		set(hotspot[select_btn].crop,"10|20|494|494");
 		set(hotspot[transparent_u].enabled,true);
 		set(hotspot[transparent_u].onclick, %1;vr_btn_out());
