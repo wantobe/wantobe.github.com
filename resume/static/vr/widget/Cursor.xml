@@ -4,9 +4,10 @@
 		visible="false"
 		distorted="true"
 		width="360"
-		keep="true"
 		height="360"
+		keep="true"
 		zorder="10"
+        scale="0.5"
 		url="../../img/vr/select_btn/select_btn.png"
 		depth="2000"
 		crop="10|553|494|494"
@@ -19,9 +20,10 @@
 		distorted="true"
 		width="150"
 		height="90"
-		oy="-100"
+		oy="-50"
 		keep="true"
 		zorder="10"
+        scale="0.5"
 		url="../../img/vr/select_btn/black.png"
 		depth="2000"
 		vr_timeout="0"
@@ -36,8 +38,9 @@
 		distorted="true"
 		width="150"
 		height="90"
-		oy="100"
+		oy="50"
 		zorder="10"
+        scale="0.5"
 		url="../../img/vr/select_btn/black.png"
 		depth="2000"
 		vr_timeout="0"
@@ -142,15 +145,19 @@
 	<action name="null;vr_btn_out">vr_btn_out();</action>
 
 	<action name="select_btn_yes_no">
-		select_btn();
-		set(hotspot[select_btn].url,"static/img/vr/select_btn/select_btn.png");
-		set(hotspot[select_btn].crop,"10|553|494|494");
-		set(hotspot[transparent_r].enabled,false);
-		set(hotspot[transparent_l].enabled,false);
-		set(hotspot[transparent_d].enabled,true);
-		set(hotspot[transparent_d].onclick,calc("%1"+";vr_btn_out()"));
-		set(hotspot[transparent_u].enabled,true);
-		set(hotspot[transparent_u].onclick,%2;vr_btn_out());
+		if(webvr.isenabled,
+			select_btn();
+			set(hotspot[select_btn].url,"static/img/vr/select_btn/select_btn.png");
+			set(hotspot[select_btn].crop,"10|553|494|494");
+			set(hotspot[transparent_r].enabled,false);
+			set(hotspot[transparent_l].enabled,false);
+			set(hotspot[transparent_d].enabled,true);
+			set(hotspot[transparent_d].onclick,calc("%1"+";vr_btn_out()"));
+			set(hotspot[transparent_u].enabled,true);
+			set(hotspot[transparent_u].onclick,%2;vr_btn_out());
+		,
+			%1;
+		)
 	</action>
 
 	<action name="select_btn_left_right">

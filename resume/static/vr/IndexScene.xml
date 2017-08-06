@@ -8,6 +8,119 @@
 	</scene>
 
   <action name="index" type="Javascript"><![CDATA[
+
+    var base_info = {
+        full_name: "林勇全",
+        title: "前端工程师",
+        avatar: "static/img/photo_1.jpg",
+        statement: "喜欢玩设计，又喜欢倒腾代码，综合前两个条件非前端工程师莫属了。早年发现 自己的设计水平跟不上自己的眼光，而慢慢将学习研究重心转到coding，还好自 己有点编程基础，前端方面的知识脑补了不少，平时又喜欢动手实验，所以 Javascript水平也得以全面的提升，反而让我更加佩服这门“奇葩”语言。各种客户 端对新的web标准支持越来越好，js不但代替部分native的工作，也成为了跨平台 的很好桥梁，而nodejs的出现，使前端系统化、工程化成为可能，大厂团队也纷 纷拥抱这个趋势。前端各种开源项目、各种框架也越来越强大，前端界的活跃度 让我看到了希望，我继续看好前端的发展。"
+    },
+
+    base_info_data = [{
+        key: "hometown",
+        keyname: "籍贯",
+        value: "福建漳浦"
+    }, {
+        key: "sex",
+        keyname: "性别",
+        value: "男"
+    }, {
+        key: "birthday",
+        keyname: "出生年月",
+        value: "1989年1月"
+    }, {
+        key: "expected",
+        keyname: "希望待遇",
+        value: "10K+"
+    }],
+
+    contacts_data = [{
+        key: "email",
+        keyname: "邮箱",
+        value: "shengli.ly@163.com"
+    }, {
+        key: "mobile",
+        keyname: "电话",
+        value: "15959242025"
+    }, {
+        key: "wechat",
+        keyname: "微信",
+        value: "jining_007"
+    }, {
+        key: "address",
+        keyname: "地址",
+        value: "厦门市莲前西路51号毅宏大厦701"
+    }],
+
+    works_data = [{
+        image: "static/img/portfolio/vrcinema-iooi.jpg",
+        link: "https://itunes.apple.com/cn/app/vrcinema-iooi-vr-player-vr-room-virtual-reality/id1180589458",
+        title: "VRCinema iooi",
+        desc: "手机本地视频播放器，分 裸眼和VR两种播放模式， 支持局域网共享视频。"
+    }, {
+        image:"static/img/portfolio/comic.jpg",
+        link: "https://itunes.apple.com/cn/app/%E7%A7%91%E8%BF%B7%E9%85%B7/id1154344164",
+        title: "科迷酷",
+        desc: "一个手机2D动态漫画客户 端，支持音效，也支持普 通条漫。"
+    }, {
+        image: "static/img/portfolio/vrcomic.jpg",
+        link: "https://itunes.apple.com/cn/app/vrcomic/id1224048121",
+        title: "VRCOMIC",
+        desc: "一个手机VR动态漫画播放 器，支持缓存在线漫画和 播放本地图片。"
+    }],
+
+    skill_data = [{
+      title:"HTML/CSS/JS",
+      progress:0.87
+    }, {
+      title:"Ps & Ai",
+      progress:0.9
+    }, {
+      title:"PHP",
+      progress:0.6,
+    }, {
+      title:"Linux/Unix",
+      progress:0.6
+    }, {
+      title:"JAVA",
+      progress:0.7,
+    }, {
+      title:"Node.js",
+      progress:0.7
+    }, {
+      title:"OC",
+      progress:0.5
+    }, {
+      title:"Angular",
+      progress:0.6
+    }, {
+      title:"SQL",
+      progress:0.6
+    }, {
+      title:"React",
+      progress:0.6
+    }, {
+      title:"Animation",
+      progress:0.7
+    }, {
+      title:"Vue",
+      progress:0.8
+    }],
+
+    experience_data = [{
+        date: "2016~2017年",
+        company: "厦门漫视游心网络科技有限公司",
+        job: "H5前端工程师",
+        desc: "开发动态漫画移动客户端，和基于WEB技术开发跨平台VR APP。"
+    }, {
+        date: "2012~2016年",
+        company: "厦门市育尔加教育科技有限公司",
+        job: "前端工程师",
+        desc: "负责教育商城部分产品设计、UI设计、前端coding和部分后端工作。"
+    }];
+
+
+
     var styles_middle = [{
       name:"previw_bg",
       url:"static/img/vr/preview_bg_tb.jpg",
@@ -16,18 +129,20 @@
       height: 960,
       depth:2500,
       zorder:2,
-      scale:1.25
-		}, {
-		  name:"title",
-      width:456,
-      height:86,
+      scale:1.25,
+      onloaded:"bg_loaded()",
+      enabled:false
+    }, {
+      name:"title",
+      width:360,
+      height:40,
       edge:"centertop",
-      oy:-430,
-      text:"林勇全的简历",
-      fontSize:40,
+      oy:-410,
+      text:">>> " + base_info.full_name + "的简历 <<<",
+      fontSize:30,
       color:"cyan"
-		}, {
-		  name:"base_info_title",
+    }, {
+      name:"base_info_title",
       width:300,
       height:86,
       edge:"lefttop",
@@ -36,55 +151,15 @@
       textAlign:"left",
       text:"个人信息",
       fontSize:24,
-		}, {
-		  name:"base_info_line",
+    }, {
+      name:"base_info_line",
       width:2,
       height:140,
       edge:"lefttop",
       ox:-120,
       oy:-280,
       background:"#87c9bf"
-		}, {
-		  name:"base_info_hometown",
-      width:300,
-      height:86,
-      edge:"lefttop",
-      ox:-436,
-      oy:-280,
-      textAlign:"right",
-      text:"籍贯：福建漳浦",
-      fontSize:20,
-		}, {
-		  name:"base_info_sex",
-      width:300,
-      height:86,
-      edge:"lefttop",
-      ox:-436,
-      oy:-240,
-      textAlign:"right",
-      text:"性别：男",
-      fontSize:20,
-		}, {
-		  name:"base_info_birthday",
-      width:300,
-      height:86,
-      edge:"lefttop",
-      ox:-436,
-      oy:-200,
-      textAlign:"right",
-      text:"出生年月：1989年1月",
-      fontSize:20,
-		}, {
-		  name:"base_info_expected",
-      width:300,
-      height:86,
-      edge:"lefttop",
-      ox:-436,
-      oy:-160,
-      textAlign:"right",
-      text:"希望待遇：10K+",
-      fontSize:20,
-		}, {
+    }, {
       name:"skill_bg",
       border:"1 cyan",
       background:"rgba(33,123,134,0.2)",
@@ -93,8 +168,8 @@
       edge:"lefttop",
       ox:-642,
       oy:-40
-		}, {
-		  name:"skill_title",
+    }, {
+      name:"skill_title",
       width:620,
       height:86,
       edge:"lefttop",
@@ -102,384 +177,25 @@
       oy:-30,
       text:"个人技能",
       fontSize:24,
-		}
-
-
-		, {
-		  name:"skill_item_0",
-      width:300,
-      height:86,
-      edge:"lefttop",
-      ox:-610,
-      oy:10,
-      textAlign:"left",
-      text:"HTML/CSS/JS",
-      fontSize:20,
-		}, {
-		  name:"skill_item_0_progress",
-      width:250*0.87,
-      height:20,
-      edge:"lefttop",
-      ox:-610,
-      oy:40,
-      background:"darkcyan"
-		}, {
-		  name:"skill_item_0_border",
-      width:250,
-      height:20,
-      edge:"lefttop",
-      ox:-610,
-      oy:40,
-      border:"2 cyan"
-		}, {
-		  name:"skill_item_1",
-      width:300,
-      height:86,
-      edge:"lefttop",
-      ox:-610,
-      oy:80,
-      textAlign:"left",
-      text:"PHP",
-      fontSize:20,
-		}, {
-		  name:"skill_item_1_progress",
-      width:250*0.6,
-      height:20,
-      edge:"lefttop",
-      ox:-610,
-      oy:110,
-      background:"darkcyan"
-		}, {
-		  name:"skill_item_1_border",
-      width:250,
-      height:20,
-      edge:"lefttop",
-      ox:-610,
-      oy:110,
-      border:"2 cyan"
-		}, {
-		  name:"skill_item_2",
-      width:300,
-      height:86,
-      edge:"lefttop",
-      ox:-610,
-      oy:150,
-      textAlign:"left",
-      text:"JAVA",
-      fontSize:20,
-		}, {
-		  name:"skill_item_2_progress",
-      width:250*0.7,
-      height:20,
-      edge:"lefttop",
-      ox:-610,
-      oy:180,
-      background:"darkcyan"
-		}, {
-		  name:"skill_item_2_border",
-      width:250,
-      height:20,
-      edge:"lefttop",
-      ox:-610,
-      oy:180,
-      border:"2 cyan"
-		}, {
-		  name:"skill_item_3",
-      width:300,
-      height:86,
-      edge:"lefttop",
-      ox:-610,
-      oy:220,
-      textAlign:"left",
-      text:"OC",
-      fontSize:20,
-		}, {
-		  name:"skill_item_3_progress",
-      width:250*0.5,
-      height:20,
-      edge:"lefttop",
-      ox:-610,
-      oy:250,
-      background:"darkcyan"
-		}, {
-		  name:"skill_item_3_border",
-      width:250,
-      height:20,
-      edge:"lefttop",
-      ox:-610,
-      oy:250,
-      border:"2 cyan"
-		}, {
-		  name:"skill_item_4",
-      width:300,
-      height:86,
-      edge:"lefttop",
-      ox:-610,
-      oy:290,
-      textAlign:"left",
-      text:"SQL",
-      fontSize:20,
-		}, {
-		  name:"skill_item_4_progress",
-      width:250*0.6,
-      height:20,
-      edge:"lefttop",
-      ox:-610,
-      oy:320,
-      background:"darkcyan"
-		}, {
-		  name:"skill_item_4_border",
-      width:250,
-      height:20,
-      edge:"lefttop",
-      ox:-610,
-      oy:320,
-      border:"2 cyan"
-		}, {
-		  name:"skill_item_5",
-      width:300,
-      height:86,
-      edge:"lefttop",
-      ox:-610,
-      oy:360,
-      textAlign:"left",
-      text:"Animation",
-      fontSize:20,
-		}, {
-		  name:"skill_item_5_progress",
-      width:250*0.7,
-      height:20,
-      edge:"lefttop",
-      ox:-610,
-      oy:390,
-      background:"darkcyan"
-		}, {
-		  name:"skill_item_5_border",
-      width:250,
-      height:20,
-      edge:"lefttop",
-      ox:-610,
-      oy:390,
-      border:"2 cyan"
-		}, {
-		  name:"skill_item_6",
-      width:300,
-      height:86,
-      edge:"lefttop",
-      ox:-310,
-      oy:10,
-      textAlign:"left",
-      text:"Photoshop & Illustrator",
-      fontSize:20,
-		}, {
-		  name:"skill_item_6_progress",
-      width:250*0.9,
-      height:20,
-      edge:"lefttop",
-      ox:-310,
-      oy:40,
-      background:"darkcyan"
-		}, {
-		  name:"skill_item_6_border",
-      width:250,
-      height:20,
-      edge:"lefttop",
-      ox:-310,
-      oy:40,
-      border:"2 cyan"
-		}, {
-		  name:"skill_item_7",
-      width:300,
-      height:86,
-      edge:"lefttop",
-      ox:-310,
-      oy:80,
-      textAlign:"left",
-      text:"Linux/Unix",
-      fontSize:20,
-		}, {
-		  name:"skill_item_7_progress",
-      width:250*0.6,
-      height:20,
-      edge:"lefttop",
-      ox:-310,
-      oy:110,
-      background:"darkcyan"
-		}, {
-		  name:"skill_item_7_border",
-      width:250,
-      height:20,
-      edge:"lefttop",
-      ox:-310,
-      oy:110,
-      border:"2 cyan"
-		}, {
-		  name:"skill_item_8",
-      width:300,
-      height:86,
-      edge:"lefttop",
-      ox:-310,
-      oy:150,
-      textAlign:"left",
-      text:"Node.js",
-      fontSize:20,
-		}, {
-		  name:"skill_item_8_progress",
-      width:250*0.7,
-      height:20,
-      edge:"lefttop",
-      ox:-310,
-      oy:180,
-      background:"darkcyan"
-		}, {
-		  name:"skill_item_8_border",
-      width:250,
-      height:20,
-      edge:"lefttop",
-      ox:-310,
-      oy:180,
-      border:"2 cyan"
-		}, {
-		  name:"skill_item_9",
-      width:300,
-      height:86,
-      edge:"lefttop",
-      ox:-310,
-      oy:220,
-      textAlign:"left",
-      text:"Angular",
-      fontSize:20,
-		}, {
-		  name:"skill_item_9_progress",
-      width:250*0.6,
-      height:20,
-      edge:"lefttop",
-      ox:-310,
-      oy:250,
-      background:"darkcyan"
-		}, {
-		  name:"skill_item_9_border",
-      width:250,
-      height:20,
-      edge:"lefttop",
-      ox:-310,
-      oy:250,
-      border:"2 cyan"
-		}, {
-		  name:"skill_item_10",
-      width:300,
-      height:86,
-      edge:"lefttop",
-      ox:-310,
-      oy:290,
-      textAlign:"left",
-      text:"React",
-      fontSize:20,
-		}, {
-		  name:"skill_item_10_progress",
-      width:250*0.6,
-      height:20,
-      edge:"lefttop",
-      ox:-310,
-      oy:320,
-      background:"darkcyan"
-		}, {
-		  name:"skill_item_10_border",
-      width:250,
-      height:20,
-      edge:"lefttop",
-      ox:-310,
-      oy:320,
-      border:"2 cyan"
-		}, {
-		  name:"skill_item_11",
-      width:300,
-      height:86,
-      edge:"lefttop",
-      ox:-310,
-      oy:360,
-      textAlign:"left",
-      text:"Vue",
-      fontSize:20,
-		}, {
-		  name:"skill_item_11_progress",
-      width:250*0.8,
-      height:20,
-      edge:"lefttop",
-      ox:-310,
-      oy:390,
-      background:"darkcyan"
-		}, {
-		  name:"skill_item_11_border",
-      width:250,
-      height:20,
-      edge:"lefttop",
-      ox:-310,
-      oy:390,
-      border:"2 cyan"
-		}
-
-
-
-		, {
+	}, {
       name:"avatar",
-      url:"static/img/photo_1.jpg",
+      url:base_info.avatar,
       width:142,
       height:142,
       edge:"lefttop",
       ox:-95,
       oy:-282
-		}, {
+	}, {
       name:"avatar_bg",
       url:"static/img/vr/avatar_bg.png",
-      width:590,
-      height:250,
+      width:688,
+      height:230,
       edge:"lefttop",
       ox:-100,
-      oy:-328
-		}, {
-		  name:"base_info_email",
-      width:300,
-      height:86,
-      edge:"lefttop",
-      ox:70,
-      oy:-248,
-      textAlign:"left",
-      text:"邮箱：shengli.ly@163.com ",
-      fontSize:18
-		}, {
-		  name:"base_info_mobile",
-      width:300,
-      height:86,
-      edge:"lefttop",
-      ox:70,
-      oy:-224,
-      textAlign:"left",
-      text:"电话：159-5924-2025 ",
-      fontSize:18
-		}, {
-		  name:"base_info_wechat",
-      width:300,
-      height:86,
-      edge:"lefttop",
-      ox:70,
-      oy:-200,
-      textAlign:"left",
-      text:"微信：jining_007",
-      fontSize:18
-		}, {
-		  name:"base_info_address",
-      width:320,
-      height:86,
-      edge:"lefttop",
-      ox:70,
-      oy:-176,
-      textAlign:"left",
-      text:"地址：厦门市莲前西路51号毅宏大厦701",
-      fontSize:18
-		}, {
+      oy:-308
+	}, {
       name:"avatar_name",
-      text:"林勇全 >>>",
+      text:base_info.full_name + " >>>",
       fontSize:20,
       fontWeight:"bold",
       textAlign:"left",
@@ -489,9 +205,9 @@
       edge:"lefttop",
       ox:-95,
       oy:-135
-		}, {
+	}, {
       name:"avatar__title",
-      text:"前端工程师",
+      text:base_info.title,
       fontSize:20,
       textAlign:"left",
       color: "cyan",
@@ -500,8 +216,8 @@
       edge:"lefttop",
       ox:-80,
       oy:-105
-		}, {
-		  name:"statement_title",
+	}, {
+	  name:"statement_title",
       width:590,
       height:64,
       edge:"lefttop",
@@ -512,117 +228,179 @@
       padding:"20 0",
       background:"rgba(33,123,134,0.2)",
       border:"1 cyan"
-		}, {
+	}, {
       name:"statement",
       width:590,
       height:300,
       edge:"lefttop",
       ox:50,
       oy:40,
-      p:"喜欢玩设计，又喜欢倒腾代码，综合前两个条件非前端工程师莫属了。早年发现 自己的设计水平跟不上自己的眼光，而慢慢将学习研究重心转到coding，还好自 己有点编程基础，前端方面的知识脑补了不少，平时又喜欢动手实验，所以 Javascript水平也得以全面的提升，反而让我更加佩服这门“奇葩”语言。各种客户 端对新的web标准支持越来越好，js不但代替部分native的工作，也成为了跨平台 的很好桥梁，而nodejs的出现，使前端系统化、工程化成为可能，大厂团队也纷 纷拥抱这个趋势。前端各种开源项目、各种框架也越来越强大，前端界的活跃度 让我看到了希望，我继续看好前端的发展。",
+      p:base_info.statement,
       textAlign:"left",
       lineHeight:1.5,
       fontSize:20
     }, {
       name:"portfolio_title",
-      width:300,
-      height:86,
+      width:100,
+      height:40,
       edge:"lefttop",
       ox:-610,
-      oy:-152,
+      oy:-218,
       textAlign:"left",
       text:"部分作品",
-      fontSize:24,
+      fontSize:24
+    }, {
+      name:"experience_title",
+      width:100,
+      height:40,
+      edge:"lefttop",
+      ox:-610,
+      oy:-154,
+      textAlign:"left",
+      text:"工作经历",
+      fontSize:24
+    }, {
+      name:"portfolio_title_line",
+      width:270,
+      height:3,
+      ox:-683,
+      oy:-154,
+      background:"cyan",
+      ty:54,
+      edge:"left"
+    }, {
+      name:"experience_title_line",
+      width:270,
+      height:3,
+      ox:-683,
+      oy:-218,
+      background:"cyan",
+      ty:54,
+      edge:"left"
     }, {
       name:"portfolio_icon",
       url:"static/img/vr/work_icon.png",
-      width:220,
+      width:200,
       height:"prop",
       edge:"lefttop",
       ox:-600,
-      oy:-352
+      oy:-380
     }];
 
     var styles_left = [
       {
         name:"left_panel",
-        width:960,
-        height:960,
-        background:"rgba(25,52,64,0.9)",
-        ox:-1920,
+        width:407,
+        height:407,
+        background:"rgba(25,52,64,0.8)",
+        ox:-270,
         depth:2500,
-        ry:-45,
-        scale:1.9,
-        zorder:4
+        ath:-45,
+        scale:2.5,
+        zorder:1,
+        border:"1 darkcyan"
       }, {
         name:"work_border",
-        width:440,
-        height:300,
-        border:"2 cyan",
-        ry:-45,
-        ox:-1600,
-        oy:0
+        width:250,
+        height:180,
+        border:"2 cyan dashed",
+        ath:-45,
+        ox:-230,
+        oy:-120
+      }, {
+        name:"work_bg",
+        width:220,
+        height:146,
+        background:"#eee",
+        ath:-45,
+        ox:-230,
+        oy:-120
       }, {
         name:"work_line",
-        width:120,
+        width:88,
         height:1,
         background:"cyan",
-        ry:-45,
-        ox:-816,
-        oy:-140
-      }, {
-        name:"work_0",
-        url:"static/img/portfolio/vrcinema-iooi.jpg",
-        width:270,
-        height:"prop",
-        ry:-45,
-        ox:-1850,
-        oy:0
-      }, {
-        name:"work_1",
-        url:"static/img/portfolio/comic.jpg",
-        width:100,
-        height:"prop",
-        ry:-45,
-        ox:-1200,
-        oy:-110
-      }, {
-        name:"work_2",
-        url:"static/img/portfolio/vrcomic.jpg",
-        width:100,
-        height:"prop",
-        ry:-45,
-        ox:-1200,
-        oy:105
+        ath:-45,
+        ox:18,
+        oy:-162,
+        edge:"left"
       }, {
         name:"more_info_bg",
         width:100,
-        height:30,
+        height:24,
+        scale:1,
         text:"●●●",
-        ry:-45,
-        ox:-1600,
-        oy:370,
-        onover:"tween(scale, 2.2)",
-        onout:"tween(scale, 2)",
-        onclick:"select_btn_yes_no(more_info())"
+        ath:-45,
+        ox:-230,
+        oy:40,
+        onover:"tween(scale, 1.2)",
+        onout:"tween(scale, 1)",
+        onclick:"select_btn_yes_no(more_info())",
+        enabled:true
+      }, {
+        name:"experience_border",
+        width:250,
+        height:140,
+        border:"2 cyan dashed",
+        ath:-45,
+        ox:-230,
+        oy:210,
+        enabled:false
+      }, {
+        name:"experience_line_0",
+        width:42,
+        height:1,
+        background:"cyan",
+        ath:-45,
+        ox:18,
+        oy:212,
+        edge:"left"
+      }, {
+        name:"experience_line_1",
+        width:1,
+        height:160,
+        background:"cyan",
+        ath:-45,
+        ox:100,
+        oy:-107,
+        edge:"lefttop"
+      }, {
+        name:"experience_line_2",
+        width:48,
+        height:1,
+        background:"cyan",
+        ath:-45,
+        ox:100,
+        oy:-108,
+        edge:"left"
       }
     ];
+
 
     var styles_right = [
       {
         name:"right_panel",
-        width:960,
-        height:960,
+        width:407,
+        height:407,
         background:"rgba(24,36,40,0.9)",
-        ox:1920,
         depth:2500,
-        ry:45,
-        scale:1.9,
-        zorder:4
+        ath:45,
+        ox:270,
+        scale:2.5,
+        zorder:1,
+        border:"10 #2b4957"
+      }, {
+        name:"right_bottom_line",
+        width:404,
+        height:30,
+        background:"#2b4957",
+        ath:45,
+        ox:-188,
+        oy:405,
+        edge:"leftbottom"
       }, {
         name:"services_title",
         text:"服务领域",
-        fontWeight:"bold",
         fontSize:24,
         width:500,
         height:36,
@@ -640,7 +418,6 @@
       }, {
         name:"interest_title",
         text:"兴趣爱好",
-        fontWeight:"bold",
         fontSize:24,
         width:500,
         height:36,
@@ -658,19 +435,297 @@
       }
     ];
 
-		krpano.createhotspot(styles_middle);
+
+  function createBaseInfoArr(data) {
+    return data.map(function(item, i){
+        return {
+          name:"base_info_" + item.key,
+          width:300,
+          height:30,
+          edge:"lefttop",
+          ox:-436,
+          oy:-280 + 40 * i,
+          textAlign:"right",
+          text:item.keyname + "：" + item.value,
+          fontSize:20,
+        }
+    });
+  }
+
+  function createContactsArr(data) {
+      var icon_styles = [{
+          crop:"0|0|41|41",
+          ox:547,
+          oy:-308
+        }, {
+          crop:"0|42|41|41",
+          ox:507,
+          oy:-266
+        }, {
+          crop:"0|84|41|41",
+          ox:507,
+          oy:-213
+        }, {
+          crop:"0|126|41|41",
+          ox:547,
+          oy:-170
+        }];
+    return data.map(function(item, i){
+        return [{
+          name:"contacts_" + item.key,
+          width:300,
+          height:30,
+          edge:"lefttop",
+          ox:70,
+          oy:-270 + 30 * i,
+          textAlign:"left",
+          text:item.keyname + "：" + item.value,
+          fontSize:20
+        }, {
+          name:"contacts_" + item.key + "_icon",
+          url:"static/img/vr/contact_icons.png",
+          crop:icon_styles[i].crop,
+          alpha:0,
+          width:41,
+          height:41,
+          edge:"lefttop",
+          ox:icon_styles[i].ox,
+          oy:icon_styles[i].oy,
+          enabled:true,
+          onover:"tween(alpha,1)",
+          onout:"tween(alpha,0)"
+        }];
+    }).reduce(flatten, []);
+  }
+
+  function createSkillArr(data){
+    return data.map(function(item, i){
+        var ox = i & 1 == 1 ? -310 : -610,
+            oy = 10 + parseInt(i/2) * 70;
+        return [{
+          name:"skill_item_"+i,
+          width:250,
+          height:30,
+          edge:"lefttop",
+          ox:ox,
+          oy:oy,
+          textAlign:"left",
+          text:item.title,
+          fontSize:20
+        },{
+          name:"skill_item_"+i+"_percent",
+          width:50,
+          height:30,
+          edge:"righttop",
+          ox:ox+250,
+          oy:oy,
+          alpha:0,
+          textAlign:"right",
+          text:item.progress*100+"%",
+          fontSize:18
+        }, {
+          name:"skill_item_"+i+"_progress",
+          width:2,
+          height:12,
+          progress:item.progress,
+          edge:"lefttop",
+          background:"darkcyan",
+          ox:ox,
+          oy:oy+30
+        }, {
+          name:"skill_item_"+i+"_border",
+          width:250,
+          height:12,
+          edge:"lefttop",
+          border:"2 cyan",
+          ox:ox,
+          oy:oy+30
+        }];
+    }).reduce(flatten, []);
+  }
+
+  function createWorksArr(data) {
+    var styles = [{
+        width: 140,
+        ox: -300,
+        oy: -120
+    }, {
+        width: 68,
+        ox: -84,
+        oy: -192
+    }, {
+        width: 68,
+        ox: -84,
+        oy: -48
+    }];
+    return styles.map(function(item, i) {
+        item.url = data[i].image;
+        item.link = data[i].link;
+        item.p = "《" + data[i].title + "》" + data[i].desc;
+        return item;
+    }).map(function(item, i) {
+        return [{
+            name:"work_"+i,
+            url:item.url,
+            width:item.width,
+            height:"prop",
+            ath:-45,
+            ox:item.ox,
+            oy:item.oy,
+            onover:"overpic()",
+            onclick:"overpic()",
+            enabled:true
+          }, {
+            name:"work_mask_"+i,
+            background:"rgba(0,0,0,0.6)",
+            fontSize:20,
+            color:"cyan",
+            textAlign:"left",
+            width:280,
+            height:280,
+            padding:"90 10 0 10",
+            lineHeight:1.5,
+            scale:1,
+            ath:-45,
+            ox:-300,
+            oy:-120,
+            alpha: 0,
+            onout:"tween(alpha, 0, 0.2, null, set(enabled,false))",
+            p:item.p,
+            link:item.link
+          }];
+        }).reduce(flatten, []);
+    }
+
+    function createExperienceArr(data) {
+        return data.map(function(item, i){
+            return [{
+                name:"experience_date_" + i,
+                width:460,
+                height:30,
+                fontSize:20,
+                padding:"5",
+                text:item.date,
+                textAlign:"left",
+                border:"1 cyan",
+                scale:1,
+                ath:-45,
+                ox:-230,
+                oy:105 + 125 * i
+              }, {
+                name:"experience_com_" + i,
+                width:460,
+                height:20,
+                fontSize:20,
+                text:item.company + " | " + item.job,
+                textAlign:"left",
+                scale:1,
+                ath:-45,
+                ox:-225,
+                oy:135 + 125 * i
+              }, {
+                name:"experience_desc_" + i,
+                width:460,
+                height:45,
+                fontSize:20,
+                lineHeight:1.1,
+                p:item.desc,
+                textAlign:"left",
+                scale:1,
+                ath:-45,
+                ox:-225,
+                oy:175 + 125 * i
+              }]
+        }).reduce(flatten, []);
+    }
+
+    function flatten(a ,b) {
+        return a.concat(b);
+    }
+
+    styles_middle = styles_middle.concat(createBaseInfoArr(base_info_data))
+        .concat(createContactsArr(contacts_data))
+        .concat(createSkillArr(skill_data));
+    styles_left = styles_left.concat(createWorksArr(works_data))
+        .concat(createExperienceArr(experience_data));
+
+    krpano.createhotspot(styles_middle,{enabled:false});
     krpano.createhotspot(styles_left.concat(styles_right), {
       scale:2,
       zorder:5,
-      depth:2000
+      depth:2000,
+      enabled:false
     });
 
   ]]></action>
 
-  <action name="more_info" type="javascript"><![CDATA[
-    console.log(134)
-    var link = window.location.href.split("#")[0].replace("resume/","");
-    window.location.href=link;
-  ]]></action>
+    <action name="more_info" type="javascript"><![CDATA[
+        window.location.href = window.location.href.split("#")[0].replace("resume/","");
+    ]]></action>
+
+    <action name="go_link" type="javascript"><![CDATA[
+        var link = caller.link;
+        //krpano.call("select_btn_yes_no(jscall(window.open('"+link+"')))");
+        krpano.call("select_btn_yes_no(jscall(window.location.href='"+link+"'))");
+    ]]></action>
+
+    <action name="bg_loaded" type="javascript"><![CDATA[
+        for(var i = 0; i<resolve("hotspot.count"); i++) {
+            var name = resolve("hotspot["+i+"].name");
+            if(name.lastIndexOf("_progress") >= 0) {
+                actions.delayedcall(0.5,
+                    //tween(hotspot[left_panel].ox, -264)
+                    "update_progress("+name+")"
+                );
+            }
+        }
+
+    ]]></action>
+
+
+    <action name="update_progress" type="javascript"><![CDATA[
+        var name = args[1],
+            hs = resolve("hotspot["+name+"]");
+        actions.tween("hotspot["+name+"].width",
+            hs.progress*250,
+            0.5,
+            "default",
+            "tween(hotspot["+name.replace('_progress','_percent')+"].alpha, 1)"
+        );
+    ]]></action>
+
+	<action name="overpic" type="javascript"><![CDATA[
+		var _index = caller.name.slice(-1),
+			_current = resolve("hotspot[work_"+_index+"]"),
+			up = _current.oy < -120;
+		if(_current.width != 140) {
+			for(var i=0; i<3; i++){
+				var work = resolve("hotspot[work_"+i+"]"),
+					work_ox = "hotspot[work_"+i+"].ox",
+					work_oy ="hotspot[work_"+i+"].oy",
+					work_width ="hotspot[work_"+i+"].width";
+				work.enabled = false;
+				if(i == _index){
+					actions.tween(work_oy, -120);
+					actions.tween(work_ox, work.ox < -200 ? -300 : -156);
+					actions.tween(work_width, 140);
+				}else{
+					if(work.width == 68){
+					    actions.tween(work_ox, work.ox < -200 ? -84 : -372);
+					}else{
+						actions.tween(work_oy, up ? -192 : -48);
+						actions.tween(work_ox, work.ox > -200 ? -84 : -372);
+						actions.tween(work_width, 68)
+					}
+				}
+				actions.tween("hotspot[work_"+i+"].rz", 0, 0.5, null, "set(hotspot[work_"+i+"].enabled,true)");
+			}
+		} else { // _current.width == 140
+		    krpano.set("hotspot[work_mask_"+_index+"].ox", _current.ox < -200 ? -300 : -156);
+		    krpano.set("hotspot[work_mask_"+_index+"].enabled", true);
+		    krpano.set("hotspot[work_mask_"+_index+"].onclick", "go_link()");
+		    actions.tween("hotspot[work_mask_"+_index+"].alpha", 1, 0.2);
+		}
+	]]></action>
 
 </krpano>
