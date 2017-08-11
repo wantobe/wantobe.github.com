@@ -1,0 +1,396 @@
+<krpano>
+	<include url="%SWFPATH%/xml/util/animation.xml" />
+	
+	<!--描述：播放动态漫画场景
+	参数： 
+		page 页数
+	-->
+	<action name="play_scene" type="Javascript" devices="html5">
+		<![CDATA[
+		window.engine_obj = {};
+		var animPos = 0;
+		var sceneIndx = args[1];
+		window.engine_obj.timeouts = [];
+		var t = null;
+		
+		var list = window.motion_data[sceneIndx];
+		
+		//对象浅拷贝
+		function clone(obj){
+		    var result={};
+		    for(key in obj){
+		        result[key]=obj[key];
+		    }
+		    return result;
+		}
+		
+		//为hotspot的name添加前缀
+		function add_prefix(name, pre){
+			var names_arr = name.split('|'),
+				reg = new RegExp("/^"+pre+"/");
+			for(var i in names_arr){
+				var value = names_arr[i];
+				if(!reg.test(value)){
+					names_arr.splice(i,1,pre+value);
+				}
+			}
+			return names_arr.join("|");
+		}
+			
+		if(list==null){
+			console.log("数据为空");
+		}else{
+			for(var i=0; i<list.length; i++){
+				var obj = list[i];
+				if(obj.name){
+					obj.name = add_prefix(obj.name, 'canvas_');
+				}
+				
+				if(obj.type=='animation'){
+					if(obj.action=='hotspot_toggle_img'){
+						t = setTimeout(function(){
+							var obj = clone(list[animPos]);
+							var name = obj.name;
+							obj.name = name+"_1";
+							KRPANO.call("createHotspot", obj);
+							obj.name = name+"_2";
+							KRPANO.call("createHotspot", obj);
+							KRPANO.call("hotspot_toggle_img",obj.img,obj.duration,obj.repeat,name);
+							animPos++;
+						},obj.delay);
+					}else if(obj.action=="hotspot_moving"){
+						t = setTimeout(function(){
+							var obj = list[animPos];
+							animPos++;
+							KRPANO.call("movingAct", obj);
+						},obj.delay);
+					}else if(obj.action=="hotspot_scale"){
+						t = setTimeout(function(){
+							var obj = list[animPos];
+							animPos++;
+							KRPANO.call("scaleAct", obj);
+						},obj.delay);
+					}else if(obj.action=="hotspot_alpha"){
+						t = setTimeout(function(){
+							var obj = list[animPos];
+							animPos++;
+							KRPANO.call("alphaAct", obj);
+						},obj.delay);
+					}else if(obj.action=="hotspot_rotate"){
+						t = setTimeout(function(){
+							var obj = list[animPos];
+							animPos++;
+							KRPANO.call("rotateAct", obj);
+						},obj.delay);
+					}else if(obj.action=="crop_move_stretch"){
+						t = setTimeout(function(){
+							var obj = clone(list[animPos]);
+							animPos++;
+							if(obj.name!=null){
+								var names = obj.name.split("|");
+								for(var i=0; i<names.length;i++){
+									KRPANO.call("crop_move_stretch",obj.duration,obj.alpha,obj.end_crop,obj.end_depth,names[i]);
+								}
+							}
+						},obj.delay);
+					}else if(obj.action=="hotspot_depth"){
+						t = setTimeout(function(){
+							var obj = list[animPos];
+							animPos++;
+							KRPANO.call("depthAct", obj);
+						},obj.delay);
+					}
+				}else if(obj.type=='command'){
+					if(obj.action=='clear_hotspot_of_canvas'){
+						t = setTimeout(function(){
+							animPos++;
+							krpano.call("clear_hotspot_of_canvas()");
+						},obj.delay);
+					}else if(obj.action=='buildHotspot_Img'){
+						t = setTimeout(function(){
+							var obj = clone(list[animPos]);
+							
+							var name = obj.name;
+							if(name!=null){
+								var names = obj.name.split("|");
+								for(var i=0; i<names.length;i++){
+									obj.name = names[i];
+									KRPANO.call("createHotspot", obj);
+								}
+							}
+							animPos++;
+							
+						},obj.delay);
+					}else if(obj.action=='select_btn_left_right'){
+						/*var t1 = setTimeout(function(){
+							krpano.call("buildHotspot_mask()");
+						},obj.delay-500);
+						window.engine_obj.timeouts.push(t1);*/
+						t = setTimeout(function(){
+							var obj = list[animPos];
+							animPos++;
+							krpano.call("initTurnPage()");
+						},obj.delay);
+					}else if(obj.action=='removehotspot'){
+						t = setTimeout(function(){
+							var obj = clone(list[animPos]);
+							animPos++;
+							var name = obj.name;
+							if(name!=null){
+								var names = obj.name.split("|");
+								for(var i=0; i<names.length;i++){
+									KRPANO.call("removehotspot", names[i]);
+								}
+							}
+							
+						},obj.delay);
+					}
+				}else if(obj.type=="music"){
+					t = setTimeout(function(){
+							var obj = list[animPos];
+							animPos++;
+							console.info(obj);
+							KRPANO.call("playsound", "bgsnd", obj.url, 1);
+					},obj.delay);
+				}else if(obj.type=="syn_animation"){
+					t = setTimeout(function(){
+						var obj = list[animPos];
+						animPos++;
+						var actions = obj.action.split("|");
+						for(var i=0; i<actions.length;i++){
+							if(actions[i]=="hotspot_depth"){
+								KRPANO.call("depthAct", obj);
+							}
+							if(actions[i]=="hotspot_alpha"){
+								KRPANO.call("alphaAct", obj);
+							}
+							
+							if(actions[i]=="hotspot_moving"){
+								KRPANO.call("movingAct", obj);
+							}
+							
+							if(actions[i]=="hotspot_scale"){
+								KRPANO.call("scaleAct", obj);
+							}
+							
+							if(actions[i]=="hotspot_zorder"){
+								KRPANO.call("zorderAct", obj);
+							}
+						}
+					},obj.delay);
+				}
+				
+				window.engine_obj.timeouts.push(t);
+			};
+		}
+		
+		
+
+		]]>
+	</action >
+	
+	<action name="clearAllTimeOut" type="Javascript" devices="html5">
+		<![CDATA[
+		for(var i=0; i<window.engine_obj.timeouts.length; i++){
+			clearTimeout(window.engine_obj.timeouts[i]);
+		};
+	]]>
+		
+	</action>
+	<!--
+		描述：给画布加一个透明蒙层 为了实现焦点是否在画布内的判断
+		参数：
+		next 下一页url地址
+		page 页数
+	-->
+	
+	<action name="initTurnPage">
+		<!--if(mask_is_onver EQ true,trace(%0," mask_is_onver:true");select_btn_left_right(play_prev(),play_next()););-->
+		tween(hotspot[arrow_left].alpha|hotspot[arrow_right].alpha,1|1);
+		set(hotspot[arrow_left].enabled,true);
+		set(hotspot[arrow_right].enabled,true);
+	</action>
+	
+	
+	<action name="createHotspot"  type="Javascript" devices="html5">
+		<![CDATA[
+			var obj = JSON.parse(unescape(args[1]));
+			var hotspotName = Date.parse(new Date()); 
+			if(obj.name!=null){
+				hotspotName = obj.name;
+			}
+			var names = hotspotName.split("|");
+			var images = obj.img.split("|");
+			for(var i=0; i<names.length;i++){
+				var name = names[i];
+				KRPANO.call("buildHotspot_Img", name, images[i]);
+				
+				if(obj.alpha!=null){
+					krpano.set("hotspot["+name+"].alpha", obj.alpha);
+				}else{
+					krpano.set("hotspot["+name+"].alpha", 0);
+					KRPANO.call("hotspot_alpha", 1, 500, 'easeOutQuad', 1, name);
+				}
+				
+				if(obj.scale!=null){
+					krpano.set("hotspot["+name+"].scale", obj.scale);
+				}
+				
+				if(obj.zorder!=null){
+					krpano.set("hotspot["+name+"].zorder", obj.zorder);
+				}
+				
+				if(obj.ox!=null){
+					krpano.set("hotspot["+name+"].ox", obj.ox);
+				}
+				if(obj.oy!=null){
+					krpano.set("hotspot["+name+"].oy", obj.oy);
+				}
+				if(obj.depth!=null){
+					krpano.set("hotspot["+name+"].depth", obj.depth);
+				}
+				
+				if(obj.width!=null){
+					krpano.set("hotspot["+name+"].width", obj.width);
+				}
+				
+				if(obj.height!=null){
+					krpano.set("hotspot["+name+"].height", obj.height);
+				}
+				
+				if(obj.crop!=null){
+					krpano.set("hotspot["+name+"].crop", obj.crop);
+				}
+				krpano.set("hotspot["+name+"].visible", true);
+			}	
+		]]>
+	</action>
+	
+	<!--
+	描述：清除动漫画布中的带canvas_名字的hotspot
+	-->
+	<action name="clear_hotspot_of_canvas">
+		delete_hotspots("canvas_");
+	</action>
+
+	
+	  <!--描述：根据图片生成hotspot
+	 	name hotspot 名称
+	 	url 图片参数
+	 	-->
+	<action name="buildHotspot_Img">
+		addhotspot(%1);
+		set(hotspot[%1].distorted,true);
+		set(hotspot[%1].depth,2000);
+		set(hotspot[%1].zorder,2);
+		set(hotspot[%1].visible,false);
+		set(hotspot[%1].edge,center);
+		set(hotspot[%1].url,%2);
+	</action>
+	
+	
+	<action name="buildHotspot_mask">
+		set(mask_is_onver,false);
+		addhotspot("canvas_mask");
+		set(hotspot[canvas_mask].distorted,true);
+		set(hotspot[canvas_mask].depth,2000);
+		set(hotspot[canvas_mask].zorder,8);
+		set(hotspot[canvas_mask].visible,true);
+		set(hotspot[canvas_mask].edge,center);
+		set(hotspot[canvas_mask].onover,set(mask_is_onver,true));
+		set(hotspot[canvas_mask].onout,center,set(mask_is_onver,false));
+		set(hotspot[canvas_mask].url,%SWFPATH%/img/mask.png);
+	</action>
+	
+	<action name="depthAct"  type="Javascript" devices="html5">
+		<![CDATA[
+		var obj = JSON.parse(unescape(args[1]));
+		if(obj.name!=null){
+			var names = obj.name.split("|");
+			for(var i=0; i<names.length;i++){
+				krpano.call("hotspot_depth("+obj.depth+","+obj.duration+",easeOutSine,"+obj.repeat+","+names[i]+")");
+			}
+		}
+		]]>
+	</action>
+	
+	
+	<action name="alphaAct"  type="Javascript" devices="html5">
+		<![CDATA[
+		var obj = JSON.parse(unescape(args[1]));
+		if(obj.name!=null){
+			var names = obj.name.split("|");
+			var desPos = obj.ox+"|"+obj.oy;
+			var repeat = obj.repeat==null?"1":obj.repeat;
+			for(var i=0; i<names.length;i++){
+				krpano.set("hotspot["+names[i]+"].alpha",obj.balpha);
+				KRPANO.call("hotspot_alpha",obj.alpha,obj.duration,"easeOutSine",obj.repeat,names[i]);
+			}
+		}
+		]]>
+	</action>
+	
+	
+	<action name="scaleAct"  type="Javascript" devices="html5">
+		<![CDATA[
+		var obj = JSON.parse(unescape(args[1]));
+		if(obj.name!=null){
+			var names = obj.name.split("|");
+			var desPos = obj.ox+"|"+obj.oy;
+			var repeat = obj.repeat==null?"1":obj.repeat;
+			for(var i=0; i<names.length;i++){
+				KRPANO.call("hotspot_scale",obj.scale,obj.duration,"easeOutSine",obj.repeat,names[i]);
+			}
+		}
+		]]>
+	</action>
+	
+	<action name="rotateAct"  type="Javascript" devices="html5">
+		<![CDATA[
+		var obj = JSON.parse(unescape(args[1]));
+		if(obj.name!=null){
+			var names = obj.name.split("|");
+			var desPos = obj.ox+"|"+obj.oy;
+			var repeat = obj.repeat==null?"1":obj.repeat;
+			for(var i=0; i<names.length;i++){
+				KRPANO.call("hotspot_rotate",obj.rotate,obj.duration,"easeOutSine",obj.repeat,names[i]);
+			}
+		}
+		]]>
+	</action>
+	
+	<!--
+		描述：移动动画action
+	-->
+	<action name="movingAct"  type="Javascript" devices="html5">
+		<![CDATA[
+		var obj = JSON.parse(unescape(args[1]));
+		if(obj.name!=null){
+			var names = obj.name.split("|");
+			var desPos = obj.ox+"|"+obj.oy;
+			var repeat = obj.repeat==null?"1":obj.repeat;
+			for(var i=0; i<names.length;i++){
+				KRPANO.call("hotspot_moving", desPos,obj.duration,"easeOutSine",obj.repeat,names[i]);
+			}
+		}
+		]]>
+	</action>
+	
+	
+	<!--
+		描述：移动动画action
+	-->
+	<action name="zorderAct"  type="Javascript" devices="html5">
+		<![CDATA[
+		var obj = JSON.parse(unescape(args[1]));
+		if(obj.name!=null){
+			var names = obj.name.split("|");
+			for(var i=0; i<names.length;i++){
+				KRPANO.call("hotspot_zorder",obj.zorder,obj.duration,"easeOutSine",obj.repeat,names[i]);
+			}
+		}
+		]]>
+	</action>
+	
+	
+</krpano>

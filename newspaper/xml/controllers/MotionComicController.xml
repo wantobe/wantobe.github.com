@@ -1,0 +1,89 @@
+<krpano debugmode="true">
+	
+<!--
+	描述：初始化场景
+-->
+	<action name="initScene" type="Javascript" devices="html5"><![CDATA[
+		console.log("motion", resolve("data_"));
+		window.episode = window.episode ? window.episode : 0;//当前漫画第几话
+		require(["json!"+resolve('data_')+"?callbak=define"],
+			function(data){
+				window.motion_data = [];
+				window.motion_data = data;
+				krpano.call("play_scene(get(page))");
+				krpano.call("page_handler(calc(page+1), "+data.length+")");
+			}
+		);
+		//console.log(Object.keys(actions));
+	]]></action>
+	
+	<action name="play_page">
+		stopallsounds();
+		clearAllTimeOut();
+		clear_hotspot_of_canvas();
+		jsget(count, "motion_data.length");
+		if(%2==update_num,page_handler(calc(%1+1),get(count)));
+		set(page,%1);
+		play_scene(%1);
+	</action>
+	
+	<action name="play_next">
+		jsget(count, "motion_data.length");
+		<!--dec(count);
+		if(page EQ count,set(page,0),inc(page););
+		play_page(get(page),update_num);
+		循环切换-->
+		inc(page);
+		if(page LT count, play_page(get(page),update_num), set(page,calc(count-1));page_handler(get(count),get(count)));
+		
+	</action>
+	<action name="play_prev">
+		<!--jsget(count, "motion_data.length");
+		dec(count);
+		if(page EQ 0,set(page,get(count)),dec(page););
+		play_page(get(page),update_num);
+		循环切换-->
+		dec(page);
+		if(page GE 0, play_page(get(page),update_num), set(page,0));
+		
+	</action>
+	
+	
+	<action name="show_next_episode">
+		stopallsounds();
+		clearAllTimeOut();
+		zoom_switch(1);
+		next_episode();
+	</action>
+	
+	<action name="go_home">
+		select_btn_yse_no(
+			jscall(delete window.motion_data);
+			zoom_switch(1);
+			clearAllTimeOut();
+			<!--clear_hotspot_of_canvas();-->
+			stopallsounds();
+			loadpanoscene(%SWFPATH%/xml/scenes/IndexScene.xml,'index',null,null,BLEND(0.5));
+		);
+	</action>
+	<action name="back">
+		select_btn_yse_no(
+			jscall(delete window.motion_data);
+			set(ep_back,false);
+			zoom_switch(1);
+			clearAllTimeOut();
+			stopallsounds();
+			loadpanoscene(%SWFPATH%/xml/scenes/PosterScene.xml,'poster_panel',null,REMOVESCENES,BLEND(0.5));
+		);
+	</action>
+	
+	<action name="zoom_switch">
+		switch(webvr.mobilevr_lens_fov,80,112);
+		switch(webvr.mobilevr_lens_dist,0.6,0.7);
+		switch(hotspot[zoom].crop,0|0|94|94, 94|0|94|94);
+		<!--webvr.saveSettings();-->
+		if(%1,set(webvr.mobilevr_lens_fov,112);set(hotspot[zoom].crop,0|0|94|94););
+		webvr.update();
+	</action>
+	
+</krpano>

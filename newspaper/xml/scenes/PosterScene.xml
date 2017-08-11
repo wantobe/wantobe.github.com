@@ -1,0 +1,12 @@
+<krpano onstart="loadscene(poster_panel);">
+	<include url="%SWFPATH%/xml/common.xml" />
+	<include url="%SWFPATH%/xml/controllers/PosterController.xml" />
+	<include url="%SWFPATH%/xml/util/History.xml" />
+
+	<scene name="poster_panel" onstart="poster_panel_init(get(ep_back));">
+		<image fov="10.0" if="hasBg==true">
+			<cube url="%SWFPATH%/img/bg/%$bgId%/mobile_%s.jpg" />
+		</image>
+	</scene>
+
+</krpano>

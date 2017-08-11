@@ -1,0 +1,69 @@
+<krpano>
+	<action name="episode_history" type="javascript"><![CDATA[
+		
+		var comic_id = resolve("id_"),
+			comic_history = localStorage.getItem("id_"+comic_id),
+			current = args[1]*1,//当前话的索引
+			length = args[2]*1;//当前漫画的话数
+		if(comic_history){
+			comic_history = comic_history.split(",");
+			if(comic_history.length < length){
+				comic_history.length = length;//随漫画更新
+			}
+		}else{
+			comic_history = new Array(length);
+		}
+	
+		window.episode = current; 
+		comic_history = comic_history.toString().split(',');
+		comic_history[window.episode]=1;//更新阅读历史
+		localStorage.setItem('id_'+comic_id, comic_history.toString());//存储阅读历史
+		
+	]]></action>
+	
+	<action name="set_history" type="javascript"><![CDATA[
+		var history = localStorage.getItem('History'),
+			history_item = {};
+		var attrs = [
+				'id',
+				'title',
+				'poster',
+				'thumb',
+				'motion',
+				'data',
+				'episodes',
+				'author',
+				'brief',
+				'update_date',
+				'category'
+			];
+		attrs.map(function(x){
+			history_item[x] = resolve(x+"_");
+		});
+		if(history){
+			history = JSON.parse(history);
+		}else{
+			history = [];
+		}
+		history.unshift(history_item);
+		history = arrayUnique(history);
+		if(history.length>6){
+			history.pop();
+		}
+		history = JSON.stringify(history);
+		localStorage.setItem('History',history);
+		
+		function arrayUnique(arr){
+			var res = [];
+			var json = {};
+			//根据id去重
+			for(var i = 0; i < arr.length; i++){
+				if(!json[arr[i].id]){
+					res.push(arr[i]);
+					json[arr[i].id] = true;
+				}
+			}
+			return res;
+		}
+	]]></action>
+</krpano>

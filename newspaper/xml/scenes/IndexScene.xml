@@ -1,0 +1,29 @@
+<krpano onstart="loadscene(index)">
+	<include url="%SWFPATH%/xml/common.xml" />
+	<include url="%SWFPATH%/xml/controllers/IndexController.xml" />
+
+<!--index_list_init();-->
+	<scene name="index" onstart="index_list_init();">
+		<image fov="10.0" if="hasBg==true">
+			<cube url="%SWFPATH%/img/bg/%$bgId%/mobile_%s.jpg" />
+		</image>
+		<hotspot name="logo" url="%SWFPATH%/img/logo.png" 
+			distorted="true"
+			keep="true"
+			scale="4.0"
+			depth="4000"
+			zorder="3"
+			oy="-1400" 
+			onover="tween(scale,4.2);" 
+			onout="tween(scale,4);" 
+			onclick="webvr.enterVR();"/>
+
+	</scene>
+	
+	<scene name="theme_panel" onstart="theme_panel_init();">
+		<image fov="10.0" if="hasBg==true">
+			<cube url="%SWFPATH%/img/bg/%$bgId%/mobile_%s.jpg" />
+		</image>
+	</scene>
+
+</krpano>

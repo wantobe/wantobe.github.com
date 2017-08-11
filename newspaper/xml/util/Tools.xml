@@ -1,0 +1,97 @@
+<krpano>
+	/*
+	 * 根据name切换hotspot的隐现
+	 */
+	<action name="switch_hotspots_visible">
+	    for(set(i, 0), i LT hotspot.count, inc(i), 
+	        indexoftxt(sindex, get(hotspot[get(i)].name), %1);
+	        if(sindex GE 0, switch(hotspot[get(i)].visible));
+	    );
+	</action>
+	
+	/*
+	 * 生成hotspot的通用方法
+	 第一参数：类型为object或由object组成的array
+	 当object没有url属性时，先生成图片
+	 第二参数：{object},可选，批量新建共同样式
+	 */
+	<action name="create_hotspot" type="javascript"><![CDATA[
+		var obj = JSON.parse(unescape(args[1])),
+			default_value = {
+				distorted:true,
+				enabled:true,
+				depth:2000,
+				zorder:3,
+				url:"",
+				ox:0, oy:0,
+				ath:0, atv:0,
+				rx:"0.0", ry:"0.0", rz:"0.0",
+				width:"", height:"",
+				edge:"center",
+				scale:1,
+				alpha:1,
+				visible:true,
+				rotate:0,
+				vr_timeout:500,
+				onclick:"",
+				onover:"",
+				onout:"",
+				onloaded:"",
+				crop:"",
+				onovercrop:"",
+				stereo:""
+			};
+			
+		if(Array.isArray(obj)){
+			for(var k in obj){
+				doIt(obj[k]);
+			}
+		}else{
+			doIt(obj);
+		}
+		
+		function doIt(obj){
+			var comm = null;
+			krpano.call("addhotspot("+obj.name+")");
+			
+			if(args[2]){
+				comm = JSON.parse(unescape(args[2]));
+				for(var i in comm){
+					default_value[i] = comm[i];
+				}
+			}
+			
+			for(var i in default_value){
+				krpano.set("hotspot["+obj.name+"]."+i, default_value[i]);
+			}
+			for(var i in obj){
+				if(i!='name'){
+					krpano.set("hotspot["+obj.name+"]."+i, obj[i]);
+				}
+			}
+			
+			if(!obj.hasOwnProperty('url')){
+				//生成图片
+				KRPANO.call("text2image", obj);
+			}
+		}
+		
+	]]></action>
+	
+	/*
+	 * 根据name中的特定字符批量删除hotspot
+	 */
+	<action name="delete_hotspots" type="javascript"><![CDATA[	
+		var hs = [];
+		for(var i = 0; i<resolve("hotspot.count"); i++){
+			var name = resolve("hotspot["+i+"].name");
+			if(name.lastIndexOf(args[1])>=0){
+				hs.push(name);
+			}
+		}
+		for(var i in hs){
+			krpano.call("removehotspot("+hs[i]+")");
+		}
+	]]></action>
+	
+</krpano>

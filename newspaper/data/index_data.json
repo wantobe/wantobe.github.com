@@ -1,0 +1,112 @@
+{
+	"new": [{
+		"id": "001",
+		"title": "四川九寨沟7.0级地震",
+		"motion": "false",
+		"thumb": "%SWFPATH%/img/news/1/thumb.jpg",
+		"poster": "%SWFPATH%/img/news/1/poster.jpg",
+		"data": "../data/1.json",
+		"episodes": 1,
+		"update_date": "2017-08-08",
+		"author": "新华社北京8月8日电",
+		"category": "",
+		"brief": "8月8日21时19分，四川省阿坝州九寨沟县（北纬33.2度，东经103.82度）发生7.0级地震，震源深度20公里。截至8月8日23时30分，地震已造成5人死亡、70余人受伤。"
+	}, {
+		"id": "006",
+		"title": "迎接党的十九大",
+		"motion": "false",
+		"thumb": "%SWFPATH%/img/news/2/thumb.jpg",
+		"poster": "%SWFPATH%/img/news/2/poster.jpg",
+		"data": "../data/2.json",
+		"episodes": 1,
+		"update_date": "2017-08-08",
+		"author": "",
+		"category": "",
+		"brief": "党的十八大以来，以习近平同志为核心的党中央把握时代大势，提出并深入贯彻创新、协调、绿色、开放、共享的新发展理念，引领中国在破解发展难题中增强动力、厚植优势，不断朝着更高质量、更有效率、更加公平、更可持续的方向前进。"
+	}, {
+		"id": "007",
+		"title": "习近平：内蒙古各族干部群众要守望相助",
+		"motion": "false",
+		"thumb": "%SWFPATH%/img/news/3/thumb.jpg",
+		"poster": "%SWFPATH%/img/news/3/poster.jpg",
+		"data": "../data/3.json",
+		"episodes": 1,
+		"update_date": "2017-08-09",
+		"author": "",
+		"category": "",
+		"brief": "介绍在草原最美的季节，内蒙古自治区即将迎来成立70周年大庆。党的十八大以来，以习近平同志为核心的党中央高瞻远瞩、情系草原，立足全局谋划内蒙古经济社会发展，为祖国北部边疆制定了清晰的行动纲领、提供了不竭的发展动力，内蒙古各族干部群众守望相助，各项事业蒸蒸日上，生态环境更加亮丽，群众生活愈加美好……"
+	}, {
+		"id": "008",
+		"title": "街头地灯温度高孩子千万别乱摸",
+		"motion": "false",
+		"thumb": "%SWFPATH%/img/news/4/thumb.jpg",
+		"poster": "%SWFPATH%/img/news/4/poster.jpg",
+		"data": "../data/4.json",
+		"episodes": 1,
+		"update_date": "2017-03-08",
+		"author": "",
+		"category": "",
+		"brief": "春去夏来随着温度越来越高，生活中多了许多\"高温\"隐患，公园、广场等公共场所里随处可见的地灯就是其中之一。"
+	}, {
+		"id": "009",
+		"title": "标题标题4",
+		"motion": "false",
+		"thumb": "%SWFPATH%/img/index/thumb_default.jpg",
+		"poster": "%SWFPATH%/img/index/poster_default.jpg",
+		"data": "../data/1.json",
+		"episodes": 3,
+		"update_date": "2017-03-09",
+		"author": "99Lily  mingdan",
+		"category": "99冒险 玄幻",
+		"brief": "距离英特尔3月13日宣布收购全球领先的ADAS厂商Mobileye过去了将近五个月，这则有史以来数额最大、影响最广的一起自动驾驶领域并购案备受业界关注，时至今日，该并购案也有了一定阶段性成果。"
+	}],
+	"recommend": [{
+		"id": "002",
+		"title": "标题标题5",
+		"motion": "false",
+		"thumb": "%SWFPATH%/img/index/thumb_default.jpg",
+		"poster": "%SWFPATH%/img/index/poster_default.jpg",
+		"data": "../data/1.json",
+		"episodes": 1,
+		"update_date": "2017-03-02",
+		"author": "2铂金终局mingdan",
+		"category": "22冒险 玄幻",
+		"brief": "距离英特尔3月13日宣布收购全球领先的ADAS厂商Mobileye过去了将近五个月，这则有史以来数额最大、影响最广的一起自动驾驶领域并购案备受业界关注，时至今日，该并购案也有了一定阶段性成果。"
+	}, {
+		"id": "003",
+		"title": "标题标题6",
+		"motion": "false",
+		"thumb": "%SWFPATH%/img/index/thumb_default.jpg",
+		"poster": "%SWFPATH%/img/index/poster_default.jpg",
+		"data": "../data/1.json",
+		"episodes": 1,
+		"update_date": "2017-03-03",
+		"author": "33siw独闯天涯an",
+		"category": "33冒险 玄幻",
+		"brief": "距离英特尔3月13日宣布收购全球领先的ADAS厂商Mobileye过去了将近五个月，这则有史以来数额最大、影响最广的一起自动驾驶领域并购案备受业界关注，时至今日，该并购案也有了一定阶段性成果。"
+	}, {
+		"id": "004",
+		"title": "标题标题7",
+		"motion": "false",
+		"thumb": "%SWFPATH%/img/index/thumb_default.jpg",
+		"poster": "%SWFPATH%/img/index/poster_default.jpg",
+		"data": "../data/1.json",
+		"episodes": 2,
+		"update_date": "2017-03-04",
+		"author": "si科学战士gdan",
+		"category": "44冒险 玄幻",
+		"brief": "距离英特尔3月13日宣布收购全球领先的ADAS厂商Mobileye过去了将近五个月，这则有史以来数额最大、影响最广的一起自动驾驶领域并购案备受业界关注，时至今日，该并购案也有了一定阶段性成果。"
+	}, {
+		"id": "005",
+		"title": "标题标题8",
+		"motion": "false",
+		"thumb": "%SWFPATH%/img/index/thumb_default.jpg",
+		"poster": "%SWFPATH%/img/index/poster_default.jpg",
+		"data": "../data/1.json",
+		"episodes": 1,
+		"update_date": "2017-03-05",
+		"author": "55s大唐除妖司gdan",
+		"category": "55冒险 玄幻",
+		"brief": "距离英特尔3月13日宣布收购全球领先的ADAS厂商Mobileye过去了将近五个月，这则有史以来数额最大、影响最广的一起自动驾驶领域并购案备受业界关注，时至今日，该并购案也有了一定阶段性成果。"
+	}]
+}

@@ -1,0 +1,545 @@
+<krpano>
+	
+	<action name="go_home">
+		loadscene('index',,KEEPVIEW,BLEND(0.5))
+	</action>
+	
+	<action name="go_theme">
+		if(hotspot[theme_bg].visible=='true',
+			go_home();
+			,
+			loadscene('theme_panel',,KEEPVIEW,BLEND(0.5))
+		);
+	</action>
+
+
+	<action name="traverse_index_data" type="javascript"><![CDATA[
+		
+		require(["json!"+args[1]+"?callbak=define"],
+			function(list_data) {
+				for(var i in list_data){
+					var list = list_data[i];
+					for(var j in list){
+						Object.keys(list[j]).map(function(value){
+							var prop = (value=="thumb"?"url":value);
+							krpano.set("hotspot["+i+"_"+j+"]."+prop, list[j][value]);
+						});
+					}
+				}
+			}
+		);
+	]]></action>
+	
+	<action name="go_poster">		
+		set(ep_back,false);
+		select_btn_yse_no(
+			loadpanoscene(%SWFPATH%/xml/scenes/PosterScene.xml,'poster_panel',null,REMOVESCENES,BLEND(0.5));
+		);
+	</action>
+
+	<action name="set_list_item" type="javascript"><![CDATA[
+		
+		var name = caller.name;
+		//设置标题文字
+		KRPANO.call("create_hotspot", {
+			name:name+'_title',
+			text:caller.title,
+			width:caller.width,
+			height:30,
+			fontSize:16,
+			padding: "7 0 0 0",
+			color:'#ffffff',
+			background:'rgba(0,0,0,0.5)',
+			zorder: 4,
+			distorted: true,
+			depth: caller.depth,
+			scale: caller.scale,
+			vr_timeout: caller.vr_timeout,
+			ath: caller.ath,
+			atv: caller.atv,
+			edge: 'bottom',
+			ox:caller.ox,
+			oy: caller.oy*1+caller.height/2*caller.scale
+		});
+		
+		//建立可点击热区
+		KRPANO.call("create_hotspot", {
+			name:name+"_hotarea",
+			url:"%SWFPATH%/img/select_btn/black.png",
+			width:caller.width*0.8,
+			height:caller.height*0.8,
+			zorder: 4,
+			distorted: true,
+			depth: caller.depth,
+			scale: caller.scale,
+			vr_timeout: caller.vr_timeout,
+			ath: caller.ath,
+			atv: caller.atv,
+			ox:caller.ox,
+			oy: caller.oy,
+			alpha: 0
+		});
+		
+		//建立动态漫画标志
+		if(caller.motion=='true'){
+			KRPANO.call("create_hotspot",{
+				name: "label_"+name,
+			    url: "%SWFPATH%/img/index/label.png",
+			    ath: caller.ath,
+				atv: caller.atv,
+			    width: 66,
+			    height: 66,
+			    edge: "righttop",
+			    ox:caller.ox*1+caller.width/2*caller.scale,
+				oy: caller.oy-caller.height/2*caller.scale,
+			    depth: caller.depth,
+				scale: 4,
+			    zorder: 3
+			});
+		}
+
+		var attrs = {
+				id: caller.id,
+				title: caller.title,
+				poster: caller.poster,
+				thumb: caller.url,
+				motion: caller.motion,
+				data: caller.data,
+				episodes: caller.episodes,
+				author: caller.author,
+				brief: caller.brief,
+				update_date: caller.update_date,//！！注意，caller属性不能大写
+				category: caller.category
+			},
+			attrs_clk = "";
+		
+		//将以上数据声明成全局kr变量	
+		for(var i in attrs){
+			attrs_clk +="set("+i+"_,"+attrs[i]+");";			
+		}
+		
+		krpano.set("hotspot["+name+"_hotarea].onclick", attrs_clk+"go_poster()");
+
+		krpano.set("hotspot["+name+"_hotarea].onhover",
+			"tween(hotspot["+name+"].depth|"
+				+"hotspot[label_"+name+"].depth|"
+				+"hotspot["+name+"_title].depth|"
+				+"depth,"
+				+"3800|3800|3800|3800);"
+		);
+		
+		krpano.set("hotspot["+name+"_hotarea].onout",
+			"tween(hotspot["+name+"].depth|"
+				+"hotspot[label_"+name+"].depth|"
+				+"hotspot["+name+"_title].depth|"
+				+"depth,"
+				+"4000|4000|4000|4000);"
+		);
+		
+		
+	]]></action>
+		
+	<action name="theme_change">
+		if(bgId != %1,
+			jscall("localStorage.setItem('bgId',%1)"); <!--暂时注释，不保存背景id-->
+			set(hasBg,true);
+			select_btn_yse_no(
+				loadscene('theme_panel',bgId=%1,KEEPVIEW,(BLEND(0.5)))
+			);
+		);
+	</action>
+
+	<action name="index_list_init" type="javascript"><![CDATA[
+
+		krpano.call('help_panel_init()');
+
+		var styles = [{
+		    name: "new_0",
+		    url: "",
+		    ath: -52,
+		    atv: 0,
+		    ox: 0,
+		    oy: -550,
+		    width: 344,
+		    height: 130
+		}, {
+		    name: "new_1",
+		    url: "",
+		    ath: -52,
+		    atv: 0,
+		    ox: -352,
+		    oy: 0,
+		    width: 168,
+		    height: 130
+		}, {
+		    name: "new_2",
+		    url: "",
+		    ath: -52,
+		    atv: 0,
+		    ox: 352,
+		    oy: 0,
+		    width: 168,
+		    height: 130
+		}, {
+		    name: "new_3",
+		    url: "",
+		    ath: -52,
+		    atv: 0,
+		    ox: -352,
+		    oy: 550,
+		    width: 168,
+		    height: 130
+		}, {
+		    name: "new_4",
+		    url: "",
+		    ath: -52,
+		    atv: 0,
+		    ox: 352,
+		    oy: 550,
+		    width: 168,
+		    height: 130
+		}, {
+		    name: "recommend_0",
+		    url: "",
+		    ath: 0,
+		    atv: 0,
+		    ox: -580,
+		    oy: -450,
+		    width: 280,
+		    height: 216
+		}, {
+		    name: "recommend_1",
+		    url: "",
+		    ath: 0,
+		    atv: 0,
+		    ox: 580,
+		    oy: -450,
+		    width: 280,
+		    height: 216
+		}, {
+		    name: "recommend_2",
+		    url: "",
+		    ath: 0,
+		    atv: 0,
+		    ox: -580,
+		    oy: 450,
+		    width: 280,
+		    height: 216
+		}, {
+		    name: "recommend_3",
+		    url: "",
+		    ox: 580,
+		    oy: 450,
+		    width: 280,
+		    height: 216
+		},
+		{
+		    name: "title_new",
+		    url: "%SWFPATH%/img/index/new.png",
+		    oy: -920,
+		    ath: -52,
+		    onloaded: ""
+		}, {
+		    name: "title_recommend",
+		    url: "%SWFPATH%/img/index/recommend.png",
+		    oy: -1000,
+		    ath: 0,
+		    onloaded: ""
+		}, {
+		    name: "title_history",
+		    url: "%SWFPATH%/img/index/history.png",
+		    oy: -920,
+		    ath: 52,
+		    onloaded: ""
+		}, {
+		    name: "button_theme",
+		    class: "index theme",
+		    url: "%SWFPATH%/img/index/skin.png",
+		    ox: 1020,
+		    oy: -1000,
+		    scale: 2.5,
+		    visible: "true",
+		    onover: "tween(scale,3)",
+		    onout: "tween(scale,2.5)",
+		    onclick: "select_btn_yse_no(go_theme());",
+		    onloaded: ""
+		}, {
+		    name: "button_helpicon",
+		    url: "%SWFPATH%/img/help/help_icon.png",
+		    scale: 4,
+		    width: 40,
+		    height: "prop",
+		    ox: 800,
+		    oy: -1000,
+		    onover: "tween(scale,5)",
+		    onout: "tween(scale,4)",
+		    onclick: "select_btn_yse_no(help_panel_init(true));",
+		    onloaded: ""
+		}];
+
+		KRPANO.call("create_hotspot",styles,{
+			depth: 4000,
+		    zorder: 2,
+		    scale: 4,
+		    vr_timeout: 1200,
+		    onloaded: "set_list_item();"
+		});
+		
+		krpano.call(
+			"traverse_index_data(get(indexData));"
+			+"history_panel_init()"
+		);
+		
+	]]></action>
+	
+	<action name="history_panel_init" type="javascript"><![CDATA[
+		var styles = [{
+		    name: "history_0",
+		    url: "",
+		    ath: 52,
+		    atv: 0,
+		    ox: -352,
+		    oy: -550,
+		    width: 168,
+		    height: 130
+		}, {
+		    name: "history_1",
+		    url: "",
+		    ath: 52,
+		    atv: 0,
+		    ox: 352,
+		    oy: -550,
+		    width: 168,
+		    height: 130
+		}, {
+		    name: "history_2",
+		    url: "",
+		    ath: 52,
+		    atv: 0,
+		    ox: -352,
+		    oy: 0,
+		    width: 168,
+		    height: 130
+		}, {
+		    name: "history_3",
+		    url: "",
+		    ath: 52,
+		    atv: 0,
+		    ox: 352,
+		    oy: 0,
+		    width: 168,
+		    height: 130
+		}, {
+		    name: "history_4",
+		    url: "",
+		    ath: 52,
+		    atv: 0,
+		    ox: -352,
+		    oy: 550,
+		    width: 168,
+		    height: 130
+		}, {
+		    name: "history_5",
+		    url: "",
+		    ath: 52,
+		    atv: 0,
+		    ox: 352,
+		    oy: 550,
+		    width: 168,
+		    height: 130
+		}];
+		
+	    var history_data = localStorage.getItem("History");
+	    
+	    if(history_data){	    
+		    history_data = JSON.parse(history_data);
+		    for(var i in history_data){
+		    	KRPANO.call("create_hotspot", styles[i],{
+		    		depth:4000,
+					zorder:2,
+			    	scale:4,
+			    	vr_timeout:1200,
+			    	onloaded:"set_list_item();" 
+		    	});
+		    	
+		    	for(var j in history_data[i]){
+		    		var prop = j=="thumb"?"url":j;
+			    	krpano.set("hotspot[history_"+i+"]."+prop, history_data[i][j]);
+		    	}
+		    	
+		    }
+		}
+			
+	]]></action>
+		
+	<action name="help_panel_init" type="javascript"><![CDATA[
+		var isGuideShowed = localStorage.getItem("isGuideShowed");//是否显示过帮助
+		isGuideShowed = isGuideShowed=="true"?true:false;
+		
+		krpano.set('help_checked', isGuideShowed);
+		
+		var checked_onclick = "if(help_checked == true,"
+				+"js(localStorage.setItem(isGuideShowed,false));"
+				+"set(hotspot[help_checked].crop,16|14|130|130);"
+				+"set(help_checked,false)"
+				+","
+				+"js(localStorage.setItem(isGuideShowed,true));"
+				+"set(hotspot[help_checked].crop,152|14|130|130);"
+				+"set(help_checked,true)"
+			+")";
+		
+		var styles = [
+		    {	
+		    	name: "help_panel_bg",
+		    	url: "%SWFPATH%/img/help/help_bg.png",
+		    	width:1000,
+				height:"prop",
+				zorder: 5,
+		        vr_timeout: 100,
+		        scale:2
+		    },{
+		    	name:"help_button",
+		    	url: "%SWFPATH%/img/help/help_button.png",
+		    	width:128,
+				height:56,
+				crop:"8|149|324|142",
+				onovercrop:"8|7|324|142",
+				ox:590,
+				oy:310,
+				onclick:"delete_hotspots(help_)",
+				zorder: 5,
+		        vr_timeout: 100,
+		        scale:2
+		    },{
+		    	name:"help_checked",
+		    	url: "%SWFPATH%/img/help/help_checked.png",
+		    	width:52,
+				height:52,
+				crop:isGuideShowed?"152|14|130|130":"16|14|130|130",
+				onovercrop:"152|14|130|130",
+				ox:-620,
+				oy:376,
+				onclick: checked_onclick,
+				zorder: 5,
+		        vr_timeout: 100,
+		        scale:2
+		    }
+		];
+		
+		if(!isGuideShowed || args[1]){
+			KRPANO.call("create_hotspot", styles);
+		}
+
+	]]></action>
+	
+	<action name="theme_panel_init" type="javascript"><![CDATA[
+		var styles = [{
+	        name: "title_theme",
+	        scale: 4,
+	        url: "%SWFPATH%/img/index/theme.png",
+	        oy: -1000,
+	        ath: 0,
+	        depth: 4000,
+	    	zorder: 3,
+	        onover: "",
+	        onout: ""
+	    }, {
+	        name: "button_theme",
+	        url: "%SWFPATH%/img/index/skin.png",
+	        ox: 1020,
+	        oy: -1000,
+	        scale: 2.5,
+	        visible: "true",
+	        onover: "tween(scale,3)",
+	        onout: "tween(scale,2.5)",
+	        onclick: "select_btn_yse_no(go_theme());",
+	        depth: 4000,
+	    	zorder: 3,
+	        onover: "",
+	        onout: ""
+	    }, {
+	        name: "theme_bg",
+	        url: "%SWFPATH%/img/index/theme_bg.png",
+	        width: 1600,
+	        height: 900,
+	        scale: 1.6,
+	        alpha: 1,
+	        depth: 4000,
+	    	zorder: 3,
+	        onover: "",
+	        onout: ""
+	    }, {
+	        name: "button_close",
+	        url: "%SWFPATH%/img/home.png",
+	        oy: 1000,
+	        scale: 2.0,
+	        onover: "tween(scale,2.2)",
+	        onout: "tween(scale,2.0)",
+	        onclick: "go_home()",
+	        depth: 4000,
+	    	zorder: 3,
+	        onover: "",
+	        onout: ""
+	    }, {
+	        name: "item_0",
+	        url: "%SWFPATH%/img/bg/0/mobile_b.jpg",
+	        ox: -800,
+	        oy: -300,
+	        width: 690,
+	        height: 520,
+	        onclick: "theme_change(0)"
+	    }, {
+	        name: "item_1",
+	        url: "%SWFPATH%/img/bg/1/mobile_f.jpg",
+	        ox: 0,
+	        oy: -300,
+	        width: 690,
+	        height: 520,
+	        onclick: "theme_change(1)"
+	    }, {
+	        name: "item_2",
+	        url: "%SWFPATH%/img/bg/2/mobile_b.jpg",
+	        ox: 800,
+	        oy: -300,
+	        width: 690,
+	        height: 520,
+	        onclick: "theme_change(2)"
+	    }, {
+	        name: "item_3",
+	        url: "%SWFPATH%/img/bg/3/mobile_l.jpg",
+	        ox: -800,
+	        oy: 300,
+	        width: 690,
+	        height: 520,
+	        onclick: "theme_change(3)"
+	    }, {
+	        name: "item_4",
+	        url: "%SWFPATH%/img/bg/4/mobile_u.jpg",
+	        ox: 0,
+	        oy: 300,
+	        width: 690,
+	        height: 520,
+	        onclick: "theme_change(4)"
+	    }, {
+	        name: "item_5",
+	        url: "%SWFPATH%/img/bg/5/mobile_f.jpg",
+	        ox: 800,
+	        oy: 300,
+	        width: 690,
+	        height: 520,
+	        onclick: "theme_change(5)"
+	    }];
+
+		
+		KRPANO.call("create_hotspot",styles,{
+		    scale: 1.0,
+		    depth: 4000,
+		    zorder: 4,
+		    onover: "tween(scale,1.1)", 
+		    onout: "tween(scale,1)",
+		    vr_timeout: 1200
+		});
+
+	]]></action>
+	
+</krpano>

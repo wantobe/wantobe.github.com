@@ -1,0 +1,218 @@
+<krpano>
+	<action name="text2image" type="Javascript" devices="html5">
+		<![CDATA[
+		/* 将文字生成图片，并生成/关联一个hotspot，将其url设置成该图片的base64 DataUrl
+		 *
+		 * @param {object} args[1]	文字内容/样式等属性，格式如下：
+		 	{
+				name:{string},			hotspot的name
+				text:{string},			显示的文字
+				p:{string},				段落文字
+				fontSize:{number},		字号(px)
+				lineHeight:{number},	行高,默认1
+				width:{number},			hotspot的宽(px)
+				height:{number},		hotspot的高(px)
+				color:{string},			文字颜色css格式，默认白色
+				background:{string},	背景色，默认透明
+				textAlign:{string}，		水平对齐方式，默认居中
+				fontWeight:{string}		文字粗细，默认normal
+				padding:{string}		内边距, 默认"0"
+				border:{string}			边框属性, 格式为"1 red solid/dashed/dotted",顺序可以颠倒，默认"none"
+				borderRadius:{number}	矩形框圆角半径 , 默认0
+			};
+		 */
+
+			var params = JSON.parse(unescape(args[1])),
+				canvas = document.createElement("canvas"),
+				context = canvas.getContext('2d'),
+				width = params.width,
+				height = params.height,
+				text = params.text,
+				p = params.p,
+				start_x = 0,
+				lineHeight = getParams(params.lineHeight, 1),
+				fontSize = getParams(params.fontSize, height),
+				color = getParams(params.color, "white"),
+				background = getParams(params.background, "none"),
+				textAlign = getParams(params.textAlign, "center"),
+				fontWeight = getParams(params.fontWeight, "normal"),
+				padding = getParams(params.padding, "0"),
+				border = getParams(params.border, "none"),
+				borderRadius = getParams(params.borderRadius, 0);
+				
+			
+			//内边距处理
+			padding = padding.split(" ");
+			for(var i in padding){
+				padding[i] = parseInt(padding[i]);
+			}
+			
+			switch(padding.length){
+				case 1: padding = [padding[0], padding[0], padding[0], padding[0]];
+					break;
+				case 2: padding = [padding[0], padding[1], padding[0], padding[1]];
+					break;
+				case 3: padding = [padding[0], padding[1], padding[2], padding[0]];
+					break;
+				case 4: padding = [padding[0], padding[1], padding[2], padding[3]];
+					break;
+				default: console.log("padding.length error");
+			}
+			
+			//设置画布大小
+			canvas.width = width;
+			canvas.height= height;
+			
+			//画矩形，即填充背景色/描边
+			drawRect(border, background, width, height, borderRadius);
+
+			//设置字体颜色
+			context.fillStyle = color;
+			
+			//设置行高
+			lineHeight = fontSize*lineHeight;
+			
+			//设置文本的水平对对齐方式
+			var new_width = width-padding[1]-padding[3];
+			if(textAlign=='left'){
+				context.textAlign = 'left';
+				start_x = padding[3];
+			}else if(textAlign=='center'){
+				context.textAlign = 'center';
+				start_x = new_width/2;
+			}else if(textAlign = 'right'){
+				context.textAlign = 'right';
+				start_x = width-padding[1];
+			}
+			
+			//设置文本的垂直对齐方式	
+			context.textBaseline = 'middle';
+			
+			//设置字体
+			context.font = fontWeight+' ' + fontSize + 'px Microsoft YaHei ';
+			
+			//绘文字
+			if(text){
+				if(new_width <= context.measureText(text).width){
+					context.textAlign = 'left';
+					start_x = padding[3];
+				}
+				context.fillText(text, start_x, lineHeight/2+padding[0]);
+			}
+			if(p){
+				var reg = /\u0020|\u007e|\u0060|\u0021|\u0040|\u0023|\u0024|\u0025|\u005e|\u0026|\u002a|\u0028|\u0029|\u002d|\u005f|\u002b|\u003d|\u007c|\u005c|\u005b|\u005d|\u007b|\u007d|\u003b|\u003a|\u0022|\u0027|\u002c|\u003c|\u002e|\u003e|\u002f|\u003f|\u3002|\uff1f|\uff01|\uff0c|\u3001|\uff1b|\uff1a|\u201c|\u201d|\u2018|\u2019|\uff08|\uff09|\u300a|\u300b|\u3010|\u3011|\u2026|\u2014|\uff5e|\uffe5/;
+				for(var i=1,j=0,line=0; i<=p.length; i++){
+					var textTemp = p.slice(j,i),
+						textWidth = context.measureText(textTemp).width;
+					if(textWidth>new_width){
+						j = i-1;
+						var textTempLen = textTemp.length;
+						if(reg.test(p.slice(j,i))){
+							j = i;
+						}else{
+							textTempLen -= 1;
+						}
+						context.fillText(textTemp.slice(0,textTempLen), start_x, (0.5+line)*lineHeight+padding[0]);
+						line++;
+					}
+					if(i==p.length){
+						context.fillText(p.slice(j,p.length), start_x, (0.5+line)*lineHeight+padding[0]);
+					}
+				}
+			}
+			
+			
+//获取参数值，并设置默认值
+function getParams(param, default_val){
+	return param?param:default_val;
+}
+			
+/*矩形圆角处理:
+	cornerX,cornerY是矩形左上角坐标，
+	width，height为矩形宽高，
+	cornerRadius为圆角半径
+	以上的单位默认为px，参数不要带单位
+*/
+function roundedRect(cornerX, cornerY, width, height, cornerRadius) {
+   context.moveTo(cornerX + cornerRadius, cornerY);
+   context.arcTo(cornerX+width,cornerY,cornerX + width,cornerY+height,cornerRadius);
+   context.arcTo(cornerX+width,cornerY + height,cornerX,cornerY+height,cornerRadius);
+   context.arcTo(cornerX,cornerY+height,cornerX,cornerY,cornerRadius);
+   context.arcTo(cornerX,cornerY,cornerX+width,cornerY,cornerRadius);
+}
+
+/*画矩形, 参数如下:
+	strokeStyle描边样式，
+	fillStyle为填充颜色
+	cornerX,cornerY是矩形左上角坐标，
+	width，height为矩形宽高，
+	cornerRadius为圆角半径
+	以上的单位默认为px，参数不要带单位
+*/
+function drawRect(strokeStyle, fillStyle, width, height, cornerRadius) {
+    context.beginPath();
+    
+    if(cornerRadius){
+    	roundedRect(0, 0, width, height, cornerRadius);
+    }
+    
+    if(fillStyle != "none"){
+	    context.fillStyle = fillStyle;
+	    if(cornerRadius){
+	    	context.fill();
+	    }else{
+	    	context.fillRect(0, 0, width, height);
+	    }
+    }
+    
+    if (strokeStyle != "none") {
+        strokeStyle = strokeStyle.split(" ");
+        var borderWidth = 0,
+        	borderStyle = "",
+        	borderColor = "";
+        for(var i in strokeStyle){
+        	if(!isNaN(strokeStyle[i])){
+        		borderWidth = strokeStyle[i];
+        	}else if(strokeStyle[i].length>0){
+	        	if(/(dashed)|(dotted)/.test(strokeStyle[i])){
+       				borderStyle = strokeStyle[i];
+	        	}else{
+       				borderColor = strokeStyle[i];
+	        	}
+        	}else{
+        		continue;
+        	}
+        }
+        //console.log(borderWidth, borderColor, borderStyle)
+		switch(borderStyle){
+			case "dotted":
+				context.setLineDash([borderWidth, borderWidth]);
+				break;
+			case "dashed":
+				context.setLineDash([2*borderWidth, borderWidth]);
+				break;
+			default:;
+		}
+   		context.strokeStyle = borderColor;
+        context.lineWidth = borderWidth;
+        
+        if(cornerRadius){
+        	context.stroke();
+        }else{
+        	context.strokeRect(0,0,width,height);
+        }
+    }
+	context.closePath();
+}
+
+			//var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+			
+			krpano.call("if(hotspot["+params.name+"].name,,addhotspot("+params.name+"))");
+        	krpano.set("hotspot["+params.name+"].url",canvas.toDataURL("image/png"));
+        	krpano.set("hotspot["+params.name+"].width",width);
+        	krpano.set("hotspot["+params.name+"].height",height);
+		]]>
+	</action>
+</krpano>
+
+

@@ -1,0 +1,293 @@
+<!--动态漫画中的动画库-->
+<krpano>
+	<!--
+		
+	描述：crop移动拉伸动画(一次性，移动/缩放)
+	duration	动画时长(s)
+	alpha		最终透明度(0~1)
+	end_crop		最终位置/大小，crop形式 'x|y|w|h'
+	end_depth	最终depth
+	name		目标hotshot名
+	-->
+	<action name="crop_move_stretch">
+
+		set(frame, 50);
+		copy(totalTime, %1);
+		txtsplit(hotspot[%5].crop, '|', x, y, w,h);
+		txtsplit(%3, '|', end_x, end_y, end_w,end_h);
+		calc(vx,(end_x-x)/frame);
+		calc(vy,(end_y-y)/frame);
+		calc(vw,(end_w-w)/frame);
+		calc(vh,(end_h-h)/frame);
+		calc(time, %1/frame);
+		copy(curTime, time);
+		debug(%0,' time:',get(time));
+
+		<!--tween(hotspot.aplah,%2,%1);
+		tween(hotspot.depth,%4,%1);-->
+
+		setinterval(crop_move_stretch_s, time,
+			if(curTime GT %1,clearinterval(crop_move_stretch_s),
+				add(x, vx);
+				add(y, vy);
+				add(w, vw);
+				add(h, vh);
+				txtadd(hotspot[%5].crop,get(x),'|',get(y),'|',get(w),"|",get(h));
+				add(curTime, time);
+				debug(%0,'  curTime:',curTime);
+			);
+		);
+
+	</action>
+	
+	
+	<!--
+		描述：crop切换背景动画
+		width  每帧的宽
+		height 每帧的高
+		repeat 动画重复次数
+		fps    帧率 每秒多少帧
+		name   name(省缺为caller.name)
+	-->
+	<action name="crop_gif_mosaic">
+		if(%5!=null, 
+			set(name,hotspot[%5].name);
+			set(crop,hotspot[%5].crop);
+			
+		);
+		set(temp, 0);
+		registerattribute(xframes, calc((imagewidth / %1) BOR 0));
+		registerattribute(yframes, calc((imageheight / %2) BOR 0));
+		registerattribute(frames, calc(xframes * yframes));
+		registerattribute(frame, 0);
+		mul(repeat_times,%3,frames);
+
+		set(crop, '0|0|%1|%2');
+
+		setinterval(calc('change_bg_animation_' + name), calc(1.0/%4),
+			if(temp LT repeat_times,
+				inc(frame);
+				inc(temp);
+				debug(%0," frame:",frame);
+				debug(%0," temp:",temp);
+				if(frame GE frames, 
+					if(onlastframe !== null, onlastframe()); 
+					set(frame,0); 
+				);
+				mod(xpos, frame, xframes);
+				div(ypos, frame, xframes);
+				Math.floor(ypos);
+				mul(xpos, %1);
+				mul(ypos, %2);
+				calc(crop, xpos + '|' + ypos + '|%1|%2');
+			  ,
+				clearinterval(calc('change_bg_animation_' + name));
+			);
+		  );
+
+	</action>
+	
+	
+	<!--
+		
+		描述：hotspot直线移动动画
+		dest_point	最终坐标 x|y
+		duration		动画时长(s)
+		tweentype	变化类型
+		repeat		重复次数
+		name		hotspot名
+	-->
+	<action name="hotspot_moving">
+		if(%5!=null, 
+			set(hotspot[%5].old_ox,get(hotspot[%5].ox));
+			set(hotspot[%5].old_oy,get(hotspot[%5].oy));
+			set(hotspot[%5].visible,true);
+		);
+		txtsplit(%1, '|', x, y);
+		set(hotspot[%5].x,get(x));
+		set(hotspot[%5].y,get(y));
+		set(hotspot[%5].repeat_times,%4);
+		set(hotspot[%5].time,calc(%2/(1000*get(hotspot[%5].repeat_times))));
+
+		for(set(i,0), i LT hotspot[%5].repeat_times, inc(i),
+				delayedcall(calc(time*i), 
+				tween(hotspot[%5].ox,get(hotspot[%5].x),get(hotspot[%5].time),%3);
+				tween(hotspot[%5].oy,get(hotspot[%5].y),get(hotspot[%5].time),%3););
+		);
+
+	</action>
+	
+	<!--
+		描述：hotspot透明变化动画
+		alpha		最终透明度(0~1)
+		duration		动画时长(s)
+		tweentype	变化类型
+		repeat		重复次数
+		name		hotspot名
+	-->
+	<action name="hotspot_alpha">
+		if(%5!=null, 
+			set(hotspot[%5].old_alpha,get(hotspot[%5].alpha));
+		);
+		set(hotspot[%5].repeat_times,%4);
+		set(hotspot[%5].time,calc(%2/(1000*%4)));
+
+		for(set(i,0), i LT %4, inc(i),
+				delayedcall(calc(hotspot[%5].time*i), 
+				set(hotspot[%5].alpha,get(hotspot[%5].old_alpha));
+				tween(hotspot[%5].alpha,%1,hotspot[%5].time,%3);
+				);
+		);
+
+	</action>
+	
+	<!--
+		描述：hotspot旋转动画
+		degree		最终旋转度数(0~±360)
+		duration		动画时长(s)
+		tweentype	变化类型
+		repeat		重复次数
+		name		hotspot名
+	-->
+	<action name="hotspot_rotate">
+		if(%5!=null, 
+			set(old_rotate,get(hotspot[%5].rotate));
+		);
+		debug(%0,' old_rotate:',get(old_rotate));
+		set(temp, 0);
+		set(repeat_times,%4);
+		set(time,calc(%2/(1000*repeat_times)));
+
+		for(set(i,0), i LT repeat_times, inc(i),
+				delayedcall(calc(time*i), 
+				set(hotspot[%5].rotate,get(old_rotate));
+				tween(hotspot[%5].rotate,%1,get(time),%3);
+				);
+		);
+
+	</action>
+	
+	
+	<!--
+		描述：hotspot缩放动画
+		参数：
+		scale		最终缩放倍数
+		duration		动画时长(s)
+		tweentype	变化类型
+		repeat		重复次数
+		name		hotspot名
+	-->
+	<action name="hotspot_scale">
+		if(%5!=null, 
+			set(old_scale,get(hotspot[%5].scale));
+		);
+		debug(%0,'  old_scale:',get(old_scale));
+		set(temp, 0);
+		set(repeat_times,%4);
+		set(time,calc(%2/(1000*repeat_times)));
+		for(set(i,0), i LT repeat_times, inc(i),
+				delayedcall(calc(time*i), 
+				set(hotspot[%5].scale,get(old_scale));
+				tween(hotspot[%5].scale,%1,get(time),%3);
+				);
+		);
+
+	</action>
+	
+	
+	<!--
+		描述：hotspot深度播放
+		参数：
+		depth		最终缩放倍数
+		duration		动画时长(s)
+		tweentype	变化类型
+		repeat		重复次数
+		name		hotspot名
+	-->
+	<action name="hotspot_depth">
+		if(%5!=null, 
+			set(old_depth,get(hotspot[%5].depth));
+		);
+		debug(%0,' old_depth:',get(old_depth));
+		set(temp, 0);
+		set(repeat_times,%4);
+		set(time,calc(%2/(1000*repeat_times)));
+		for(set(i,0), i LT repeat_times, inc(i),
+				delayedcall(calc(time*i), 
+				set(hotspot[%5].depth,get(old_depth));
+				tween(hotspot[%5].depth,%1,get(time),%3);
+				);
+		);
+
+	</action>
+	
+	
+	<!--
+		描述：hotspot zorder
+		参数：
+		zorder		zoder变化
+		duration		动画时长(s)
+		tweentype	变化类型
+		repeat		重复次数
+		name		hotspot名
+	-->
+	<action name="hotspot_zorder">
+		if(%5!=null, 
+			set(old_zorder,get(hotspot[%5].zorder));
+		);
+		debug(%0,'  zorder:',get(zorder));
+		set(temp, 0);
+		set(repeat_times,%4);
+		set(time,calc(%2/(1000*repeat_times)));
+		for(set(i,0), i LT repeat_times, inc(i),
+				delayedcall(calc(time*i), 
+				set(hotspot[%5].zorder,get(old_zorder));
+				tween(hotspot[%5].zorder,%1,get(time),%3);
+				);
+		);
+
+	</action>
+	
+	<!--
+		描述：hotspot多张图片切换 有别于gif
+		参数：
+		imgs		图片集，例如（1.png|2.png）
+		duration	动画时长(s)
+		repeat		重复次数,
+		name        hotspot名称 非必填
+	-->
+	<action name="hotspot_toggle_img" type="Javascript" devices="html5"><![CDATA[
+			var imgs = args[1].split("|");
+			var temp = 0;
+			var totalTime = args[2];
+			var repeatTime = args[3];
+			var name = args[4];
+			var timestamp = Date.parse(new Date()); 
+			var name1 = "canvas_"+timestamp+"_1";
+			var name2 = "canvas_"+timestamp+"_2";
+			if(name!=null){
+				name1 = name+"_1";
+				name2 = name+"_2";
+			}
+			var index = 0;
+			var total_repeatTimes = repeatTime*imgs.length;
+			var duration = totalTime/(total_repeatTimes);
+			for(var i= 0; i<total_repeatTimes; i++){
+				setTimeout(function(){
+					var imgPos = (index+1)%(imgs.length);
+					var showPos = index%2;
+					index++;
+					if(showPos == 0){
+						krpano.call("set(hotspot["+name1+"].visible, true);set(hotspot["+name2+"].visible, false);");
+						krpano.call("set(hotspot["+name2+"].url,"+imgs[imgPos]+")");
+					}else{
+						krpano.call("set(hotspot["+name2+"].visible, true);set(hotspot["+name1+"].visible, false);");
+						krpano.call("set(hotspot["+name1+"].url,"+imgs[imgPos]+")");
+					}
+					
+				},duration*i);
+				
+			}
+		]]>
+	</action>
+</krpano>
