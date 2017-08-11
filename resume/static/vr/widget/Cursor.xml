@@ -94,14 +94,12 @@
 
 	<action name="select_btn" type="Javascript" devices="html5">
 		<![CDATA[
-
 		var hs_u = krpano.get("hotspot[transparent_u]");
 		var hs_d = krpano.get("hotspot[transparent_d]");
 		var hs_bg = krpano.get("hotspot[select_btn]");
 		var hs_r = krpano.get("hotspot[transparent_r]");
 		var hs_l = krpano.get("hotspot[transparent_l]");
 		var hs_hidden = krpano.get("hotspot[view_btn_hidden]");
-
 		var f = 1,	// follow speed factor
 			h = krpano.view.hlookat,
 			v = krpano.view.vlookat,
