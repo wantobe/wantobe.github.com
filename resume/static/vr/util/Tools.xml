@@ -1,5 +1,6 @@
 <krpano>
 	<action name="app_init" type="javascript" autorun="preinit"><![CDATA[
+		//隐藏右键菜单
 		krpano.contextmenu.versioninfo = false;
 		krpano.contextmenu.fullscreen = false;
 		

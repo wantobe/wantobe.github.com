@@ -2,21 +2,25 @@
   <include url="common.xml" />
 
 	<scene name="index" onstart="index()">
-		<image fov="10" if="1">
+		<image fov="10" if="0">
 			<sphere url="../img/bg.jpg" />
 		</image>
 	</scene>
 
   <action name="index" type="Javascript"><![CDATA[
-
-    var base_info = {
-        full_name: "林勇全",
-        title: "前端工程师",
-        avatar: "static/img/photo_1.jpg",
-        statement: "喜欢玩设计，又喜欢倒腾代码，综合前两个条件非前端工程师莫属了。早年发现 自己的设计水平跟不上自己的眼光，而慢慢将学习研究重心转到coding，还好自 己有点编程基础，前端方面的知识脑补了不少，平时又喜欢动手实验，所以 Javascript水平也得以全面的提升，反而让我更加佩服这门“奇葩”语言。各种客户 端对新的web标准支持越来越好，js不但代替部分native的工作，也成为了跨平台 的很好桥梁，而nodejs的出现，使前端系统化、工程化成为可能，大厂团队也纷 纷拥抱这个趋势。前端各种开源项目、各种框架也越来越强大，前端界的活跃度 让我看到了希望，我继续看好前端的发展。"
-    },
-
-    base_info_data = [{
+    var base_info_data = [{
+    	 key: "full_name",
+        value: "林勇全"
+    }, {
+    	 key: "rank",
+        value: "前端工程师",
+    }, {
+    	 key: "avatar",
+        value: "static/img/photo_1.jpg",
+    }, {
+    	 key: "statement",
+        value: "喜欢玩设计，又喜欢倒腾代码，综合前两个条件非前端工程师莫属了。早年发现 自己的设计水平跟不上自己的眼光，而慢慢将学习研究重心转到coding，还好自己有点编程基础，前端方面的知识脑补了不少，平时又喜欢动手实验，所以 Javascript水平也得以全面的提升，反而让我更加佩服这门“奇葩”语言。如今各种客户端对新的web标准支持越来越好，js不但代替部分native的工作，也成为了跨平台的很好桥梁，而node.js的出现，使前端系统化、工程化成为可能，大厂团队也纷纷拥抱这个趋势。前端各种开源项目、各种框架也越来越强大，前端界的活跃度让我看到了希望，我继续看好前端的发展。"
+    }, {
         key: "hometown",
         keyname: "籍贯",
         value: "福建漳浦"
@@ -56,55 +60,55 @@
         image: "static/img/portfolio/vrcinema-iooi.jpg",
         link: "https://itunes.apple.com/cn/app/vrcinema-iooi-vr-player-vr-room-virtual-reality/id1180589458",
         title: "VRCinema iooi",
-        desc: "手机本地视频播放器，分 裸眼和VR两种播放模式， 支持局域网共享视频。"
+        desc: "手机本地视频播放器，分裸眼和VR两种播放模式， 支持局域网共享视频。"
     }, {
         image:"static/img/portfolio/comic.jpg",
         link: "https://itunes.apple.com/cn/app/%E7%A7%91%E8%BF%B7%E9%85%B7/id1154344164",
         title: "科迷酷",
-        desc: "一个手机2D动态漫画客户 端，支持音效，也支持普 通条漫。"
+        desc: "一个手机2D动态漫画客户端，支持音效，也支持普通条漫。"
     }, {
         image: "static/img/portfolio/vrcomic.jpg",
         link: "https://itunes.apple.com/cn/app/vrcomic/id1224048121",
         title: "VRCOMIC",
-        desc: "一个手机VR动态漫画播放 器，支持缓存在线漫画和 播放本地图片。"
+        desc: "一个手机VR动态漫画播放器，支持缓存在线漫画和播放本地图片。"
     }],
 
     skill_data = [{
       title:"HTML/CSS/JS",
-      progress:0.87
+      marked:0.87
     }, {
       title:"Ps & Ai",
-      progress:0.9
+      marked:0.9
     }, {
       title:"PHP",
-      progress:0.6,
+      marked:0.6,
     }, {
       title:"Linux/Unix",
-      progress:0.6
+      marked:0.6
     }, {
       title:"JAVA",
-      progress:0.7,
+      marked:0.7,
     }, {
       title:"Node.js",
-      progress:0.7
+      marked:0.7
     }, {
       title:"OC",
-      progress:0.5
+      marked:0.5
     }, {
       title:"Angular",
-      progress:0.6
+      marked:0.6
     }, {
       title:"SQL",
-      progress:0.6
+      marked:0.6
     }, {
       title:"React",
-      progress:0.6
+      marked:0.6
     }, {
       title:"Animation",
-      progress:0.7
+      marked:0.7
     }, {
       title:"Vue",
-      progress:0.8
+      marked:0.8
     }],
 
     experience_data = [{
@@ -133,12 +137,12 @@
       onloaded:"bg_loaded()",
       enabled:false
     }, {
-      name:"title",
+      name:"base_info_header_full_name",
       width:360,
       height:40,
       edge:"centertop",
       oy:-410,
-      text:">>> " + base_info.full_name + "的简历 <<<",
+      text:"",
       fontSize:30,
       color:"cyan"
     }, {
@@ -178,8 +182,8 @@
       text:"个人技能",
       fontSize:24,
 	}, {
-      name:"avatar",
-      url:base_info.avatar,
+      name:"base_info_avatar",
+      url:"",
       width:142,
       height:142,
       edge:"lefttop",
@@ -194,8 +198,8 @@
       ox:-100,
       oy:-308
 	}, {
-      name:"avatar_name",
-      text:base_info.full_name + " >>>",
+      name:"base_info_full_name",
+      text:"",
       fontSize:20,
       fontWeight:"bold",
       textAlign:"left",
@@ -203,11 +207,11 @@
       width:142,
       height:250,
       edge:"lefttop",
-      ox:-95,
+      ox:-80,
       oy:-135
 	}, {
-      name:"avatar__title",
-      text:base_info.title,
+      name:"base_info_rank",
+      text:"",
       fontSize:20,
       textAlign:"left",
       color: "cyan",
@@ -229,13 +233,13 @@
       background:"rgba(33,123,134,0.2)",
       border:"1 cyan"
 	}, {
-      name:"statement",
+      name:"base_info_statement",
       width:590,
       height:300,
       edge:"lefttop",
       ox:50,
       oy:40,
-      p:base_info.statement,
+      p:"",
       textAlign:"left",
       lineHeight:1.5,
       fontSize:20
@@ -290,10 +294,10 @@
     var styles_left = [
       {
         name:"left_panel",
-        width:407,
-        height:407,
+        width:404,
+        height:404,
         background:"rgba(25,52,64,0.8)",
-        ox:-270,
+        ox:-266,
         depth:2500,
         ath:-45,
         scale:2.5,
@@ -311,7 +315,7 @@
         name:"work_bg",
         width:220,
         height:146,
-        background:"#eee",
+        background:"#2b4d5b",
         ath:-45,
         ox:-230,
         oy:-120
@@ -380,24 +384,15 @@
     var styles_right = [
       {
         name:"right_panel",
-        width:407,
-        height:407,
+        width:404,
+        height:404,
         background:"rgba(24,36,40,0.9)",
         depth:2500,
         ath:45,
-        ox:270,
+        ox:266,
         scale:2.5,
         zorder:1,
-        border:"10 #2b4957"
-      }, {
-        name:"right_bottom_line",
-        width:404,
-        height:30,
-        background:"#2b4957",
-        ath:45,
-        ox:-188,
-        oy:405,
-        edge:"leftbottom"
+        border:"2 #2b4957"
       }, {
         name:"services_title",
         text:"服务领域",
@@ -436,8 +431,32 @@
     ];
 
 
-  function createBaseInfoArr(data) {
-    return data.map(function(item, i){
+  function createBaseInfoArr() {
+  	let styles_modify = function(key, value) {
+  		styles_middle.forEach(function(item){
+  			if(item.name.endsWith(key)){
+  				switch(key){
+  					case "full_name":
+  						item.text = item.name.includes("header") ? ">>> " + value + "的简历 <<<" : value + "★★★";
+  						break;
+  					case "rank": item.text = value;
+  						break;
+  					case "avatar": item.url = value;
+  						break;
+  					case "statement": item.p = value;
+  						break;
+  				}
+  			}
+		});
+  	}
+
+  	return base_info_data.filter(function(item){
+  		if(/full_name|rank|avatar|statement/.test(item.key)){
+  			styles_modify(item.key, item.value);
+  		}else{
+  			return item;
+  		}
+  	}).map(function(item, i){
         return {
           name:"base_info_" + item.key,
           width:300,
@@ -452,7 +471,8 @@
     });
   }
 
-  function createContactsArr(data) {
+
+  function createContactsArr() {
       var icon_styles = [{
           crop:"0|0|41|41",
           ox:547,
@@ -470,10 +490,10 @@
           ox:547,
           oy:-170
         }];
-    return data.map(function(item, i){
+    return contacts_data.map(function(item, i){
         return [{
           name:"contacts_" + item.key,
-          width:300,
+          width:360,
           height:30,
           edge:"lefttop",
           ox:70,
@@ -498,8 +518,8 @@
     }).reduce(flatten, []);
   }
 
-  function createSkillArr(data){
-    return data.map(function(item, i){
+  function createSkillArr(){
+    return skill_data.map(function(item, i){
         var ox = i & 1 == 1 ? -310 : -610,
             oy = 10 + parseInt(i/2) * 70;
         return [{
@@ -521,13 +541,13 @@
           oy:oy,
           alpha:0,
           textAlign:"right",
-          text:item.progress*100+"%",
+          text:item.marked*100+"%",
           fontSize:18
         }, {
           name:"skill_item_"+i+"_progress",
           width:2,
           height:12,
-          progress:item.progress,
+          progress:item.marked,
           edge:"lefttop",
           background:"darkcyan",
           ox:ox,
@@ -544,7 +564,7 @@
     }).reduce(flatten, []);
   }
 
-  function createWorksArr(data) {
+  function createWorksArr() {
     var styles = [{
         width: 140,
         ox: -300,
@@ -559,9 +579,9 @@
         oy: -48
     }];
     return styles.map(function(item, i) {
-        item.url = data[i].image;
-        item.link = data[i].link;
-        item.p = "《" + data[i].title + "》" + data[i].desc;
+        item.url = works_data[i].image;
+        item.link = works_data[i].link;
+        item.p = "《" + works_data[i].title + "》" + works_data[i].desc;
         return item;
     }).map(function(item, i) {
         return [{
@@ -597,8 +617,8 @@
         }).reduce(flatten, []);
     }
 
-    function createExperienceArr(data) {
-        return data.map(function(item, i){
+    function createExperienceArr() {
+        return experience_data.map(function(item, i){
             return [{
                 name:"experience_date_" + i,
                 width:460,
@@ -643,11 +663,12 @@
         return a.concat(b);
     }
 
-    styles_middle = styles_middle.concat(createBaseInfoArr(base_info_data))
-        .concat(createContactsArr(contacts_data))
-        .concat(createSkillArr(skill_data));
-    styles_left = styles_left.concat(createWorksArr(works_data))
-        .concat(createExperienceArr(experience_data));
+    function arrConcat() {
+    	 return Array.from(arguments).reduce(flatten, [])
+    }
+
+    styles_middle = arrConcat(styles_middle, createBaseInfoArr(), createContactsArr(), createSkillArr());
+    styles_left = arrConcat(styles_left, createWorksArr(), createExperienceArr());
 
     krpano.createhotspot(styles_middle,{enabled:false});
     krpano.createhotspot(styles_left.concat(styles_right), {
