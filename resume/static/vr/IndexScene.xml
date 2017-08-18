@@ -8,6 +8,7 @@
 	</scene>
 
   <action name="index" type="Javascript"><![CDATA[
+
     var base_info_data = [{
     	 key: "full_name",
         value: "林勇全"
@@ -266,7 +267,7 @@
     }, {
       name:"portfolio_title_line",
       width:270,
-      height:3,
+      height:1,
       ox:-683,
       oy:-154,
       background:"cyan",
@@ -275,7 +276,7 @@
     }, {
       name:"experience_title_line",
       width:270,
-      height:3,
+      height:1,
       ox:-683,
       oy:-218,
       background:"cyan",
@@ -304,23 +305,25 @@
         border:"1 darkcyan"
       }, {
         name:"work_border",
-        width:250,
-        height:180,
-        border:"2 cyan dashed",
+        width:500,
+        height:360,
+        border:"1 cyan",
         ox:-230,
-        oy:-120
+        oy:-118
       }, {
         name:"work_bg",
         width:220,
         height:146,
-        background:"#2b4d5b",
+        scale:2,
         ox:-230,
-        oy:-120
+        oy:-120,
+        background:"#2b4d5b"
       }, {
         name:"work_line",
-        width:88,
+        width:176,
         height:1,
         background:"cyan",
+        zorder:2,
         ox:18,
         oy:-162,
         edge:"left"
@@ -328,7 +331,6 @@
         name:"more_info_bg",
         width:100,
         height:24,
-        scale:1,
         text:"●●●",
         ox:-230,
         oy:40,
@@ -338,33 +340,35 @@
         enabled:true
       }, {
         name:"experience_border",
-        width:250,
-        height:140,
-        border:"2 cyan dashed",
+        width:500,
+        height:280,
+        border:"1 cyan",
         ox:-230,
         oy:210,
         enabled:false
       }, {
         name:"experience_line_0",
-        width:42,
+        width:84,
         height:1,
         background:"cyan",
+        zorder:2,
         ox:18,
         oy:212,
         edge:"left"
       }, {
         name:"experience_line_1",
         width:1,
-        height:160,
+        height:320,
         background:"cyan",
         ox:100,
         oy:-107,
         edge:"lefttop"
       }, {
         name:"experience_line_2",
-        width:48,
+        width:96,
         height:1,
         background:"cyan",
+        zorder:2,
         ox:100,
         oy:-108,
         edge:"left"
@@ -384,13 +388,14 @@
         zorder:1,
         border:"2 #2b4957"
       }, {
-      name:"services_list_bg",
-      url:"static/img/vr/border_outer.png",
-      width:656,
-      height:258,
-      edge:"lefttop",
-      ox:-110,
-      oy:-300
+	  name:"services_list_bg",
+	  url:"static/img/vr/border_outer.png",
+	  width:656,
+	  height:190,
+	  edge:"lefttop",
+	  alpha: 0.8,
+	  ox:-110,
+	  oy:-310
 	}, {
         name:"services_title",
         text:"服务领域",
@@ -401,38 +406,23 @@
         edge:"lefttop",
         textAlign:"left",
         ox:-90,
-        oy:-315
-      }, {
-        name:"services",
-        url:"static/img/vr/services.png",
-        width:500,
-        height:"prop",
-        ry:45,
-        ox:1600,
-        oy:-205
+        oy:-320
       }, {
         name:"interest_title",
         text:"兴趣爱好",
         fontSize:24,
-        width:500,
-        height:36,
-        ry:45,
-        ox:1600,
+        width:100,
+        height:32,
+        edge:"lefttop",
+        textAlign:"left",
+        ox:-90,
         oy:180
-      }, {
-        name:"interest",
-        url:"static/img/vr/interest.png",
-        width:500,
-        height:"prop",
-        ry:45,
-        ox:1600,
-        oy:430
       }
     ];
 
 
   function createBaseInfoArr() {
-  	let styles_modify = function(key, value) {
+  	var styles_modify = function(key, value) {
   		styles_middle.forEach(function(item){
   			if(item.name.endsWith(key)){
   				switch(key){
@@ -593,6 +583,7 @@
             oy:item.oy,
             onover:"overpic()",
             onclick:"overpic()",
+            scale: 2,
             enabled:true
           }, {
             name:"work_mask_"+i,
@@ -604,7 +595,6 @@
             height:280,
             padding:"90 10 0 10",
             lineHeight:1.5,
-            scale:1,
             ox:-300,
             oy:-120,
             alpha: 0,
@@ -654,6 +644,47 @@
         }).reduce(flatten, []);
     }
 
+
+    var services_data = [
+		"iOS、Android混合应用开发",
+		"UI/平面、原型/交互设计",
+		"H5网站、微信/小程序开发",
+		"web vr网站/APP开发",
+    ];
+    function createServicesArr() {
+		return services_data.map(function(item, i){
+			return [{
+				name: "services_item_index_"+i,
+				text: "0" + (i + 1),
+				width: 60,
+				height: 36,
+				edge: "lefttop",
+				ox: -50 + 157 * i,
+				oy: -266
+			}, {
+				name: "services_text_"+i,
+				width: 120,
+				height: 140,
+				fontSize: 18,
+				lineHeight: 1.5,
+				p: item,
+				edge: "lefttop",
+				ox: -75 + 157 * i,
+				oy: -230
+			}, {
+				name: "services_text_line_"+i,
+				width: 1,
+				height: 120,
+				background: "darkcyan",
+				edge: "lefttop",
+				ox: -90 + 157 * i,
+				oy: -270,
+				visible: i > 0
+			}]
+		}).reduce(flatten, []);
+    }
+
+
     function flatten(a ,b) {
         return a.concat(b);
     }
@@ -664,10 +695,10 @@
 
     styles_middle = arrConcat(styles_middle, createBaseInfoArr(), createContactsArr(), createSkillArr());
     styles_left = arrConcat(styles_left, createWorksArr(), createExperienceArr());
+    styles_right = arrConcat(styles_right, createServicesArr());
 
     krpano.createhotspot(styles_middle,{enabled:false});
     krpano.createhotspot(styles_left, {
-      scale:2,
       ath:-45,
       zorder:5,
       depth:2000,
