@@ -2,44 +2,37 @@
   <include url="common.xml" />
 
 	<scene name="index" onstart="index()">
-		<image fov="10" if="0">
+		<image fov="10" if="1">
 			<sphere url="../img/bg.jpg" />
 		</image>
 	</scene>
 
   <action name="index" type="Javascript"><![CDATA[
 
-    var base_info_data = [{
-    	 key: "full_name",
-        value: "林勇全"
-    }, {
-    	 key: "rank",
-        value: "前端工程师",
-    }, {
-    	 key: "avatar",
-        value: "static/img/photo_1.jpg",
-    }, {
-    	 key: "statement",
-        value: "喜欢玩设计，又喜欢倒腾代码，综合前两个条件非前端工程师莫属了。早年发现 自己的设计水平跟不上自己的眼光，而慢慢将学习研究重心转到coding，还好自己有点编程基础，前端方面的知识脑补了不少，平时又喜欢动手实验，所以 Javascript水平也得以全面的提升，反而让我更加佩服这门“奇葩”语言。如今各种客户端对新的web标准支持越来越好，js不但代替部分native的工作，也成为了跨平台的很好桥梁，而node.js的出现，使前端系统化、工程化成为可能，大厂团队也纷纷拥抱这个趋势。前端各种开源项目、各种框架也越来越强大，前端界的活跃度让我看到了希望，我继续看好前端的发展。"
-    }, {
-        key: "hometown",
-        keyname: "籍贯",
-        value: "福建漳浦"
-    }, {
-        key: "sex",
-        keyname: "性别",
-        value: "男"
-    }, {
-        key: "birthday",
-        keyname: "出生年月",
-        value: "1989年1月"
-    }, {
-        key: "expected",
-        keyname: "希望待遇",
-        value: "10K+"
-    }],
+    var full_name = "林勇全",
+    	rank = "前端工程师",
+    	avatar = "static/img/photo_1.jpg",
+    	statement = "喜欢玩设计，又喜欢倒腾代码，综合前两个条件非前端工程师莫属了。早年发现 自己的设计水平跟不上自己的眼光，而慢慢将学习研究重心转到coding，还好自己有点编程基础，前端方面的知识脑补了不少，平时又喜欢动手实验，所以 Javascript水平也得以全面的提升，反而让我更加佩服这门“奇葩”语言。如今各种客户端对新的web标准支持越来越好，js不但代替部分native的工作，也成为了跨平台的很好桥梁，而node.js的出现，使前端系统化、工程化成为可能，大厂团队也纷纷拥抱这个趋势。前端各种开源项目、各种框架也越来越强大，前端界的活跃度让我看到了希望，我继续看好前端的发展。",
 
-    contacts_data = [{
+	base_info_data = [{
+		key: "hometown",
+		keyname: "籍贯",
+		value: "福建漳浦"
+	}, {
+		key: "sex",
+		keyname: "性别",
+		value: "男"
+	}, {
+		key: "birthday",
+		keyname: "出生年月",
+		value: "1989年1月"
+	}, {
+		key: "expected",
+		keyname: "希望待遇",
+		value: "10K+"
+	}],
+
+	contacts_data = [{
         key: "email",
         keyname: "邮箱",
         value: "shengli.ly@163.com"
@@ -56,6 +49,27 @@
         keyname: "地址",
         value: "厦门市莲前西路51号毅宏大厦701"
     }],
+
+    education_data = [{
+    	key: "date",
+    	keyname: "时间",
+    	value: "2008年 ~ 2011年"
+    }, {
+    	key: "school",
+    	keyname: "院校",
+    	value: "福建商学院"
+    }, {
+    	key: "speciality",
+    	keyname: "专业",
+    	value: "嵌入式系统"
+    }],
+
+    services_data = [
+		"iOS、Android混合应用开发",
+		"UI/平面、原型/交互设计",
+		"H5网站、微信/小程序开发",
+		"web vr网站/APP开发",
+    ],
 
     works_data = [{
         image: "static/img/portfolio/vrcinema-iooi.jpg",
@@ -74,54 +88,65 @@
         desc: "一个手机VR动态漫画播放器，支持缓存在线漫画和播放本地图片。"
     }],
 
-    skill_data = [{
-      title:"HTML/CSS/JS",
-      marked:0.87
-    }, {
-      title:"Ps & Ai",
-      marked:0.9
-    }, {
-      title:"PHP",
-      marked:0.6,
-    }, {
-      title:"Linux/Unix",
-      marked:0.6
-    }, {
-      title:"JAVA",
-      marked:0.7,
-    }, {
-      title:"Node.js",
-      marked:0.7
-    }, {
-      title:"OC",
-      marked:0.5
-    }, {
-      title:"Angular",
-      marked:0.6
-    }, {
-      title:"SQL",
-      marked:0.6
-    }, {
-      title:"React",
-      marked:0.6
-    }, {
-      title:"Animation",
-      marked:0.7
-    }, {
-      title:"Vue",
-      marked:0.8
-    }],
+    skill_data = [
+    	{ title:"HTML/CSS/JS",	marked:0.87 },
+    	{ title:"Ps & Ai",		marked:0.9 },
+    	{ title:"PHP",			marked:0.6 },
+    	{ title:"Linux/Unix",	marked:0.6 },
+    	{ title:"JAVA",		marked:0.7 },
+    	{ title:"Node.js",		marked:0.7 },
+    	{ title:"OC",			marked:0.5 },
+    	{ title:"Angular",		marked:0.6 },
+    	{ title:"SQL",			marked:0.6 },
+    	{ title:"React",		marked:0.6 },
+    	{ title:"Animation",	marked:0.7 },
+    	{ title:"Vue",			marked:0.8 }
+    ],
 
     experience_data = [{
-        date: "2016~2017年",
+        date: "2016年~2017年",
         company: "厦门漫视游心网络科技有限公司",
         job: "H5前端工程师",
         desc: "开发动态漫画移动客户端，和基于WEB技术开发跨平台VR APP。"
     }, {
-        date: "2012~2016年",
+        date: "2012年~2016年",
         company: "厦门市育尔加教育科技有限公司",
         job: "前端工程师",
         desc: "负责教育商城部分产品设计、UI设计、前端coding和部分后端工作。"
+    }],
+
+    hobbies_data = [{
+    	key: "Movie",
+    	keyname: "电影",
+    	image: "static/img/vr/icons/movie.png"
+    }, {
+    	key: "Beer",
+    	keyname: "啤酒",
+    	image: "static/img/vr/icons/beer.png"
+    }, {
+    	key: "Music",
+    	keyname: "音乐",
+    	image: "static/img/vr/icons/music.png"
+    }, {
+    	key: "Travelling",
+    	keyname: "旅游",
+    	image: "static/img/vr/icons/travelling.png"
+    }, {
+    	key: "Fitness",
+    	keyname: "健身",
+    	image: "static/img/vr/icons/fitness.png"
+    }, {
+    	key: "Money",
+    	keyname: "毛爷爷",
+    	image: "static/img/vr/icons/money.png"
+    }, {
+    	key: "Books",
+    	keyname: "健身",
+    	image: "static/img/vr/icons/books.png"
+    }, {
+    	key: "Games",
+    	keyname: "游戏",
+    	image: "static/img/vr/icons/games.png"
     }];
 
 
@@ -143,48 +168,24 @@
       height:40,
       edge:"centertop",
       oy:-410,
-      text:"",
+      text:">>> " + full_name + "的简历 <<<",
       fontSize:30,
       color:"cyan"
     }, {
-      name:"base_info_title",
-      width:300,
-      height:86,
-      edge:"lefttop",
-      ox:-80,
-      oy:-310,
-      textAlign:"left",
-      text:"个人信息",
-      fontSize:24,
-    }, {
-      name:"base_info_line",
-      width:2,
-      height:140,
-      edge:"lefttop",
-      ox:-120,
-      oy:-280,
-      background:"#87c9bf"
-    }, {
-      name:"skill_bg",
-      border:"1 cyan",
-      background:"rgba(33,123,134,0.2)",
-      width:620,
-      height:480,
-      edge:"lefttop",
-      ox:-642,
-      oy:-40
-    }, {
       name:"skill_title",
       width:620,
-      height:86,
+      height:490,
       edge:"lefttop",
       ox:-642,
-      oy:-30,
+      oy:-40,
       text:"个人技能",
       fontSize:24,
+      padding:"20 0",
+      border:"1 cyan",
+      background:"rgba(33,123,134,0.2)"
 	}, {
       name:"base_info_avatar",
-      url:"",
+      url:avatar,
       width:142,
       height:142,
       edge:"lefttop",
@@ -193,14 +194,15 @@
 	}, {
       name:"avatar_bg",
       url:"static/img/vr/avatar_bg.png",
-      width:760,
-      height:298,
+      width:160,
+      height:214,
+      zorder:3,
       edge:"lefttop",
-      ox:-100,
-      oy:-350
+      ox:-102,
+      oy:-292
 	}, {
       name:"base_info_full_name",
-      text:"",
+      text:full_name + "★★★",
       fontSize:20,
       fontWeight:"bold",
       textAlign:"left",
@@ -209,10 +211,10 @@
       height:250,
       edge:"lefttop",
       ox:-80,
-      oy:-135
+      oy:-132
 	}, {
       name:"base_info_rank",
-      text:"",
+      text:rank,
       fontSize:20,
       textAlign:"left",
       color: "cyan",
@@ -222,11 +224,84 @@
       ox:-80,
       oy:-105
 	}, {
-	  name:"statement_title",
-      width:590,
-      height:64,
+      name:"half_circle",
+      width:246,
+      height:246,
+      edge:"righttop",
+      ox:680,
+      oy:-310,
+      borderRadius:123,
+      border:"1 cyan",
+      visible:false
+    }, {
+      name:"base_info_contacts_title",
+      width:200,
+      height:30,
       edge:"lefttop",
-      ox:48,
+      ox:80,
+      oy:-302,
+      textAlign:"left",
+      text:"联系方式",
+      fontSize:20,
+      fontWeight:"bold"
+    }, {
+      name:"base_info_contacts_border",
+      url:"static/img/vr/base_info_contacts_border.png",
+      width:446,
+      height:186,
+      zorder:3,
+      edge:"lefttop",
+      ox:60,
+      oy:-292,
+      onloaded:"callwith(hotspot[half_circle], set(width,123);set(crop, 0|0|123|246);set(visible, true))"
+	}, {
+      name:"base_info_title",
+      width:200,
+      height:30,
+      edge:"lefttop",
+      ox:-390,
+      oy:-352,
+      textAlign:"left",
+      text:"个人信息",
+      fontSize:20,
+      fontWeight:"bold"
+    }, {
+      name:"base_info_education_title",
+      width:200,
+      height:30,
+      edge:"lefttop",
+      ox:-390,
+      oy:-202,
+      textAlign:"left",
+      text:"教育背景",
+      fontSize:20,
+      fontWeight:"bold"
+    }, {
+      name:"base_info_border",
+      url:"static/img/vr/base_info_border.png",
+      width:304,
+      height:140,
+      zorder:3,
+      edge:"lefttop",
+      ox:-406,
+      oy:-342,
+      onloaded:"callwith(hotspot[half_circle], set(width,123);set(crop, 0|0|123|246);set(visible, true))"
+	}, {
+      name:"base_info_education_border",
+      url:"static/img/vr/base_info_border.png",
+      width:304,
+      height:140,
+      zorder:3,
+      edge:"lefttop",
+      ox:-406,
+      oy:-192,
+      onloaded:"callwith(hotspot[half_circle], set(width,123);set(crop, 0|0|123|246);set(visible, true))"
+	}, {
+	  name:"statement_title",
+      width:620,
+      height:490,
+      edge:"lefttop",
+      ox:24,
       oy:-40,
       text:"自我描述",
       fontSize:24,
@@ -238,35 +313,39 @@
       width:590,
       height:300,
       edge:"lefttop",
-      ox:50,
-      oy:40,
-      p:"",
+      ox:40,
+      oy:30,
+      p:statement,
       textAlign:"left",
       lineHeight:1.5,
       fontSize:20
     }, {
       name:"portfolio_title",
-      width:100,
+      width:180,
       height:40,
       edge:"lefttop",
-      ox:-610,
-      oy:-218,
-      textAlign:"left",
+      ox:-642,
+      oy:-231,
       text:"部分作品",
-      fontSize:24
+      background:"rgba(33,123,134,0.5)",
+      fontSize:24,
+      padding: "8 0",
+      border: "2 cyan"
     }, {
       name:"experience_title",
-      width:100,
+      width:180,
       height:40,
       edge:"lefttop",
-      ox:-610,
-      oy:-154,
-      textAlign:"left",
+      ox:-642,
+      oy:-167,
       text:"工作经历",
-      fontSize:24
+      background:"rgba(33,123,134,0.5)",
+      fontSize:24,
+      padding: "8 0",
+      border: "2 cyan"
     }, {
       name:"portfolio_title_line",
-      width:270,
+      width:220,
       height:1,
       ox:-683,
       oy:-154,
@@ -275,7 +354,7 @@
       edge:"left"
     }, {
       name:"experience_title_line",
-      width:270,
+      width:220,
       height:1,
       ox:-683,
       oy:-218,
@@ -285,11 +364,11 @@
     }, {
       name:"portfolio_icon",
       url:"static/img/vr/work_icon.png",
-      width:200,
+      width:160,
       height:"prop",
       edge:"lefttop",
       ox:-600,
-      oy:-380
+      oy:-360
     }];
 
     var styles_left = [
@@ -308,6 +387,7 @@
         width:500,
         height:360,
         border:"1 cyan",
+        borderRadius:5,
         ox:-230,
         oy:-118
       }, {
@@ -325,7 +405,7 @@
         background:"cyan",
         zorder:2,
         ox:18,
-        oy:-162,
+        oy:-161,
         edge:"left"
       }, {
         name:"more_info_bg",
@@ -343,34 +423,35 @@
         width:500,
         height:280,
         border:"1 cyan",
+        borderRadius: 5,
         ox:-230,
         oy:210,
         enabled:false
       }, {
         name:"experience_line_0",
-        width:84,
+        width:83,
         height:1,
         background:"cyan",
         zorder:2,
-        ox:18,
+        ox:19,
         oy:212,
         edge:"left"
       }, {
         name:"experience_line_1",
         width:1,
-        height:320,
+        height:319,
         background:"cyan",
-        ox:100,
+        ox:101,
         oy:-107,
         edge:"lefttop"
       }, {
         name:"experience_line_2",
-        width:96,
+        width:95,
         height:1,
         background:"cyan",
         zorder:2,
-        ox:100,
-        oy:-108,
+        ox:101,
+        oy:-107,
         edge:"left"
       }
     ];
@@ -388,15 +469,15 @@
         zorder:1,
         border:"2 #2b4957"
       }, {
-	  name:"services_list_bg",
-	  url:"static/img/vr/border_outer.png",
-	  width:656,
-	  height:190,
-	  edge:"lefttop",
-	  alpha: 0.8,
-	  ox:-110,
-	  oy:-310
-	}, {
+	    name:"services_list_bg",
+	    url:"static/img/vr/border_outer.png",
+	    width:656,
+	    height:190,
+	    edge:"lefttop",
+	    alpha: 0.8,
+	    ox:-110,
+	    oy:-310
+	  }, {
         name:"services_title",
         text:"服务领域",
         fontSize:24,
@@ -415,70 +496,86 @@
         height:32,
         edge:"lefttop",
         textAlign:"left",
-        ox:-90,
-        oy:180
+        ox:180,
+        oy:120
+      }, {
+        name:"interest_border",
+        width:550,
+        height:260,
+        edge:"lefttop",
+        ox:-50,
+        oy:0,
+        border: "1 cyan dashed",
+        borderRadius: 129,
       }
     ];
 
 
   function createBaseInfoArr() {
-  	var styles_modify = function(key, value) {
-  		styles_middle.forEach(function(item){
-  			if(item.name.endsWith(key)){
-  				switch(key){
-  					case "full_name":
-  						item.text = item.name.includes("header") ? ">>> " + value + "的简历 <<<" : value + "★★★";
-  						break;
-  					case "rank": item.text = value;
-  						break;
-  					case "avatar": item.url = value;
-  						break;
-  					case "statement": item.p = value;
-  						break;
-  				}
-  			}
-		});
-  	}
-
-  	return base_info_data.filter(function(item){
-  		if(/full_name|rank|avatar|statement/.test(item.key)){
-  			styles_modify(item.key, item.value);
-  		}else{
-  			return item;
-  		}
-  	}).map(function(item, i){
-        return {
-          name:"base_info_" + item.key,
-          width:300,
+  	return base_info_data.map(function(item, i){
+        return [{
+          name:"base_info_keyname_" + item.key,
+          width:100,
           height:30,
           edge:"lefttop",
-          ox:-436,
-          oy:-280 + 40 * i,
+          ox:-390,
+          oy:-320 + 25 * i,
           textAlign:"right",
-          text:item.keyname + "：" + item.value,
-          fontSize:20,
-        }
-    });
+          text:item.keyname,
+          fontSize:20
+        }, {
+          name:"base_info_" + item.key,
+          width:200,
+          height:30,
+          edge:"lefttop",
+          ox:-260,
+          oy:-320 + 25 * i,
+          textAlign:"left",
+          text: item.value,
+          fontSize:20
+        }];
+    }).reduce(flatten, []);
   }
 
+  function createEducationArr() {
+  		return education_data.map(function(item, i) {
+  			return {
+				name:"base_info_edu_" + item.key,
+				width:250,
+				height:25,
+				edge:"lefttop",
+				ox:-380,
+				oy:-150 + (i == 0 ? -5 : 0) + 25 * i,
+				padding: "0 0 0 5",
+				bottomBorder: "2 " + (i == 0 ? "darkcyan" : "transparent"),
+				textAlign:"left",
+				text: (i > 0 ? item.keyname + "：" : "") + item.value,
+				fontSize:20
+  			}
+  		});
+  }
 
   function createContactsArr() {
       var icon_styles = [{
           crop:"0|0|41|41",
-          ox:619,
-          oy:-342
+          onovercrop:"42|0|41|41",
+          ox:618,
+          oy:-322
         }, {
           crop:"0|42|41|41",
-          ox:558,
-          oy:-283
+          onovercrop:"42|42|41|41",
+          ox:550,
+          oy:-253
         }, {
           crop:"0|84|41|41",
-          ox:558,
-          oy:-194
+          onovercrop:"42|84|41|41",
+          ox:550,
+          oy:-164
         }, {
           crop:"0|126|41|41",
-          ox:619,
-          oy:-140
+          onovercrop:"42|126|41|41",
+          ox:618,
+          oy:-100
         }];
     return contacts_data.map(function(item, i){
         return [{
@@ -486,8 +583,9 @@
           width:360,
           height:30,
           edge:"lefttop",
-          ox:70,
-          oy:-270 + 30 * i,
+          zorder: 4,
+          ox:80,
+          oy:-262 + 36 * i,
           textAlign:"left",
           text:item.keyname + "：" + item.value,
           fontSize:20
@@ -495,15 +593,15 @@
           name:"contacts_" + item.key + "_icon",
           url:"static/img/vr/contact_icons.png",
           crop:icon_styles[i].crop,
-          alpha:0,
           width:41,
           height:41,
           edge:"lefttop",
           ox:icon_styles[i].ox,
           oy:icon_styles[i].oy,
           enabled:true,
-          onover:"tween(alpha,1)",
-          onout:"tween(alpha,0)"
+          onovercrop:icon_styles[i].onovercrop,
+          onover:"tween(hotspot[contacts_"+item.key+"].depth,1900)",
+          onout:"tween(hotspot[contacts_"+item.key+"].depth,2000)"
         }];
     }).reduce(flatten, []);
   }
@@ -511,7 +609,7 @@
   function createSkillArr(){
     return skill_data.map(function(item, i){
         var ox = i & 1 == 1 ? -310 : -610,
-            oy = 10 + parseInt(i/2) * 70;
+            oy = 20 + parseInt(i/2) * 70;
         return [{
           name:"skill_item_"+i,
           width:250,
@@ -633,8 +731,8 @@
                 name:"experience_desc_" + i,
                 width:460,
                 height:45,
-                fontSize:20,
-                lineHeight:1.1,
+                fontSize:18,
+                lineHeight:1.2,
                 p:item.desc,
                 textAlign:"left",
                 scale:1,
@@ -645,12 +743,6 @@
     }
 
 
-    var services_data = [
-		"iOS、Android混合应用开发",
-		"UI/平面、原型/交互设计",
-		"H5网站、微信/小程序开发",
-		"web vr网站/APP开发",
-    ];
     function createServicesArr() {
 		return services_data.map(function(item, i){
 			return [{
@@ -684,6 +776,43 @@
 		}).reduce(flatten, []);
     }
 
+    function creatInterestArr() {
+    	return hobbies_data.map(function(item ,i){
+    		return [{
+				name:"interest_icon_cn"+i,
+				text:item.keyname,
+				width:120,
+				height:120,
+				padding: "94 0 0 0",
+				fontSize: 16,
+				border: "1 cyan",
+				borderRadius: 59,
+				background: "#142d37",
+				edge:"lefttop",
+				ox:i < 6 ? (-5 + (i%3) * 170) : (i%6) * 550 - 110,
+				oy:i < 6 ? (-60 + parseInt(i/3) * 260) : 70
+			}, {
+				name:"interest_icon_en"+i,
+				text:item.key,
+				width:120,
+				height:120,
+				padding: "80 0 0 0",
+				fontSize: 14,
+				edge:"lefttop",
+				ox:i < 6 ? -5 + (i%3) * 170 : (i%6) * 550 - 110,
+				oy:i < 6 ? -60 + parseInt(i/3) * 260 : 70
+			}, {
+				name:"interest_icon"+i,
+				url:item.image,
+				width:80,
+				height:"prop",
+				edge:"lefttop",
+				ox:i < 6 ? 15 + (i%3) * 170 : (i%6) * 550 - 88,
+				oy:i < 6 ? -45 + parseInt(i/3) * 260 : 77
+			}]
+    	}).reduce(flatten, []);
+    }
+
 
     function flatten(a ,b) {
         return a.concat(b);
@@ -693,9 +822,9 @@
     	 return Array.from(arguments).reduce(flatten, [])
     }
 
-    styles_middle = arrConcat(styles_middle, createBaseInfoArr(), createContactsArr(), createSkillArr());
+    styles_middle = arrConcat(styles_middle, createBaseInfoArr(), createEducationArr(), createContactsArr(), createSkillArr());
     styles_left = arrConcat(styles_left, createWorksArr(), createExperienceArr());
-    styles_right = arrConcat(styles_right, createServicesArr());
+    styles_right = arrConcat(styles_right, createServicesArr(), creatInterestArr());
 
     krpano.createhotspot(styles_middle,{enabled:false});
     krpano.createhotspot(styles_left, {

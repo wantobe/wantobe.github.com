@@ -18,6 +18,10 @@
 				fontWeight:{string}		文字粗细，默认normal
 				padding:{string}		内边距, 默认"0"
 				border:{string}			边框属性, 格式为"1 red solid/dashed/dotted",顺序可以颠倒，默认"none"
+				leftBorder:{string}
+				rightBorder:{string}
+				upBorder:{string}
+				bottomBorder:{string}
 				borderRadius:{number}	矩形框圆角半径 , 默认0
 			};
 		 */
@@ -39,7 +43,11 @@
 				fontWeight = params.fontWeight || "normal",
 				padding = params.padding || "0",
 				border = params.border || "none",
-				borderRadius = params.borderRadius || 0;
+				borderRadius = params.borderRadius || 0,
+				leftBorder = params.leftBorder || false,
+				rightBorder = params.rightBorder || false,
+				topBorder = params.topBorder || false,
+				bottomBorder = params.bottomBorder || false;
 
 
 			//内边距处理
@@ -122,6 +130,60 @@
 				}
 			}
 
+			function drawBorder(strokeStyle) {
+				var borderStyle = "",
+					borderColor = "",
+					borderWidth = 0;
+				strokeStyle = strokeStyle.split(" ");
+				for(var i in strokeStyle){
+					if(!isNaN(strokeStyle[i])){
+						borderWidth = parseInt(strokeStyle[i]);
+					}
+					if(strokeStyle[i].length>0){
+						if(/dashed|dotted/.test(strokeStyle[i])){
+							borderStyle = strokeStyle[i];
+						}else{
+							borderColor = strokeStyle[i];
+						}
+					}
+				}
+				switch(borderStyle){
+				  case "dotted":
+				  	context.lineCap="round";
+					context.setLineDash([borderWidth+1, borderWidth+1]);
+					break;
+				  case "dashed":
+					context.setLineDash([2*borderWidth+1, borderWidth+1]);
+					break;
+				}
+				context.strokeStyle = borderColor;
+				context.lineWidth = borderWidth;
+				return borderWidth;
+			}
+
+			function drawOneBorder(width, height, borderWidth) {
+				var bor = borderWidth/2;
+				if(leftBorder) {
+					drawIt(leftBorder, bor, 0, bor, height);
+				}
+				if(rightBorder) {
+					drawIt(rightBorder, width - bor, 0, width - bor, height);
+				}
+				if(topBorder) {
+					drawIt(topBorder, 0, bor, width, bor);
+
+				}
+				if(bottomBorder) {
+					drawIt(bottomBorder, 0, height - bor, width, height - bor);
+				}
+			    function drawIt(borderStyle, x1, y1, x2, y2){
+			    	drawBorder(borderStyle);
+			    	context.moveTo(x1 , y1);
+			    	context.lineTo(x2, y2);
+			    	context.stroke();
+			    }
+			}
+
 			/*矩形圆角处理:
 				cornerX,cornerY是矩形左上角坐标，
 				width，height为矩形宽高，
@@ -145,58 +207,40 @@
 				以上的单位默认为px，参数不要带单位
 			*/
 			function drawRect(strokeStyle, fillStyle, width, height, cornerRadius) {
+				var borderWidth = 0,
+					hasBorder = strokeStyle != "none",
+					hasBg = fillStyle != "none",
+					isRadius = !!cornerRadius;
+
+			    if (hasBorder) {
+			    	borderWidth = drawBorder(strokeStyle);
+			    }
+
 			    context.beginPath();
 
-			    if(cornerRadius){
-			    	roundedRect(0, 0, width, height, cornerRadius);
-			    }
-
-			    if(fillStyle != "none"){
+				if(hasBg){
 				    context.fillStyle = fillStyle;
-				    if(cornerRadius){
-				    	context.fill();
-				    }else{
-				    	context.fillRect(0, 0, width, height);
-				    }
 			    }
 
-			    if (strokeStyle != "none") {
-			        strokeStyle = strokeStyle.split(" ");
-			        var borderWidth = 0,
-			        	borderStyle = "",
-			        	borderColor = "";
-			        for(var i in strokeStyle){
-			        	if(!isNaN(strokeStyle[i])){
-			        		borderWidth = strokeStyle[i];
-			        	}else if(strokeStyle[i].length>0){
-				        	if(/(dashed)|(dotted)/.test(strokeStyle[i])){
-			       				borderStyle = strokeStyle[i];
-				        	}else{
-			       				borderColor = strokeStyle[i];
-				        	}
-			        	}else{
-			        		continue;
-			        	}
-			        }
-			        //console.log(borderWidth, borderColor, borderStyle)
-            switch(borderStyle){
-              case "dotted":
-                context.setLineDash([borderWidth, borderWidth]);
-                break;
-              case "dashed":
-                context.setLineDash([2*borderWidth, borderWidth]);
-                break;
-              default:;
-            }
-			   		context.strokeStyle = borderColor;
-            context.lineWidth = borderWidth;
-
-            if(cornerRadius){
-              context.stroke();
-            }else{
-              context.strokeRect(0,0,width,height);
-            }
+			    if(isRadius){
+			    	roundedRect(borderWidth, borderWidth, width-2*borderWidth, height-2*borderWidth, cornerRadius);
+			    	if(hasBg) {
+			    		context.fill();
+			    	}
+			    	if(hasBorder) {
+			    		context.stroke();
+			    	}
+			    } else {
+			    	if(hasBg) {
+			    		context.fillRect(0, 0, width, height);
+			    	}
+			    	if(hasBorder) {
+			    		context.strokeRect(0,0,width,height);
+			    	}
 			    }
+
+				drawOneBorder(width, height, borderWidth);
+
 				context.closePath();
 			}
 
