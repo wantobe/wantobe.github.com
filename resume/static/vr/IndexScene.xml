@@ -3,7 +3,7 @@
 
 	<scene name="index" onstart="index()">
 		<image fov="10" if="1">
-			<sphere url="../img/bg.jpg" />
+			<sphere url="../img/vr/AMD_MoonBaseInvasion_05.jpg" />
 		</image>
 	</scene>
 
@@ -51,17 +51,17 @@
     }],
 
     education_data = [{
-    	key: "date",
-    	keyname: "时间",
-    	value: "2008年 ~ 2011年"
+		key: "date",
+		keyname: "时间",
+		value: "2008年 ~ 2011年"
     }, {
-    	key: "school",
-    	keyname: "院校",
-    	value: "福建商学院"
+		key: "school",
+		keyname: "院校",
+		value: "福建商学院"
     }, {
-    	key: "speciality",
-    	keyname: "专业",
-    	value: "嵌入式系统"
+		key: "speciality",
+		keyname: "专业",
+		value: "嵌入式系统"
     }],
 
     services_data = [
@@ -141,14 +141,13 @@
     	image: "static/img/vr/icons/money.png"
     }, {
     	key: "Books",
-    	keyname: "健身",
+    	keyname: "读书",
     	image: "static/img/vr/icons/books.png"
     }, {
     	key: "Games",
     	keyname: "游戏",
     	image: "static/img/vr/icons/games.png"
     }];
-
 
 
     var styles_middle = [{
@@ -505,8 +504,8 @@
         edge:"lefttop",
         ox:-50,
         oy:0,
-        border: "1 cyan dashed",
-        borderRadius: 129,
+        border: "2 darkcyan dashed",
+        borderRadius: 130,
       }
     ];
 
@@ -786,7 +785,7 @@
 				padding: "94 0 0 0",
 				fontSize: 16,
 				border: "1 cyan",
-				borderRadius: 59,
+				borderRadius: 60,
 				background: "#142d37",
 				edge:"lefttop",
 				ox:i < 6 ? (-5 + (i%3) * 170) : (i%6) * 550 - 110,

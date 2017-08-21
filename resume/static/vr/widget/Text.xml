@@ -150,10 +150,10 @@
 				switch(borderStyle){
 				  case "dotted":
 				  	context.lineCap="round";
-					context.setLineDash([borderWidth+1, borderWidth+1]);
+					context.setLineDash([borderWidth, borderWidth]);
 					break;
 				  case "dashed":
-					context.setLineDash([2*borderWidth+1, borderWidth+1]);
+					context.setLineDash([2*borderWidth, borderWidth]);
 					break;
 				}
 				context.strokeStyle = borderColor;
@@ -212,31 +212,34 @@
 					hasBg = fillStyle != "none",
 					isRadius = !!cornerRadius;
 
-			    if (hasBorder) {
-			    	borderWidth = drawBorder(strokeStyle);
-			    }
-
 			    context.beginPath();
 
-				if(hasBg){
-				    context.fillStyle = fillStyle;
+			    if (hasBorder) {
+			    		borderWidth = drawBorder(strokeStyle);
 			    }
-
 			    if(isRadius){
-			    	roundedRect(borderWidth, borderWidth, width-2*borderWidth, height-2*borderWidth, cornerRadius);
-			    	if(hasBg) {
-			    		context.fill();
-			    	}
-			    	if(hasBorder) {
-			    		context.stroke();
-			    	}
-			    } else {
-			    	if(hasBg) {
-			    		context.fillRect(0, 0, width, height);
-			    	}
-			    	if(hasBorder) {
-			    		context.strokeRect(0,0,width,height);
-			    	}
+			    		if(2*cornerRadius + 2*borderWidth >= width) {
+			    			cornerRadius = width/2 - borderWidth;
+			    		}
+			    		if(2*cornerRadius + 2*borderWidth >= height) {
+			    			cornerRadius = height/2 - borderWidth;
+			    		}
+					roundedRect(borderWidth, borderWidth, width-2*borderWidth, height-2*borderWidth, cornerRadius);
+					if(hasBg) {
+						context.fillStyle = fillStyle;
+						context.fill();
+					}
+					if(hasBorder) {
+						context.stroke();
+					}
+				} else {
+					if(hasBg) {
+						context.fillStyle = fillStyle;
+						context.fillRect(0, 0, width, height);
+					}
+					if(hasBorder) {
+						context.strokeRect(0,0,width,height);
+					}
 			    }
 
 				drawOneBorder(width, height, borderWidth);
